@@ -65,26 +65,28 @@ class Navbar extends Component {
 
 								<li className="nav-separator"></li>
 
-								<span className="dropdown myprofilemenu">
+								<li className="dropdown myprofilemenu">
 									<a className="dropdown-toggle">
 										<div className="fb-login">
 											{!this.props.facebookAuthData ? <FacebookLogin /> : null}
-											{this.props.facebookAuthData ? (
+											{this.props.facebookAuthData && this.props.facebookPictureData ? (
 												<FacebookPicture
 													facebookPictureUrl={this.props.facebookPictureData} />
 												) : null}
 										</div>
 									</a>
-									{this.props.facebookAuthData ? (
-										<div className="dropdown-menu fullwidth">
-											<div className="myprofilemenu-content withdesc">
-												<ul>
-													<li><a href="#">My Profile</a></li>
-													<li><a href="#">Logout</a></li>
-												</ul>
-											</div>
-										</div>) : null}
-								</span>
+									{this.props.facebookAuthData && this.props.facebookPictureData ? (
+										<ul className="dropdown-menu fullwidth">
+											<li className="myprofilemenu-content withdesc">
+												<div className="col-md-3 mg-col">
+													<ul>
+														<li><a href="#">My Profile</a></li>
+														<li><a href="#">Logout</a></li>
+													</ul>
+												</div>
+											</li>
+										</ul>) : null}
+								</li>
 							</ul>
 
 						</div>

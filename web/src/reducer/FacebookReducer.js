@@ -3,7 +3,6 @@
 import store from '../stores/Store';
 import * as Constants from '../constants/Constants';
 import FacebookActionCreators from '../actions/FacebookActionCreators'
-import deepFreeze from 'deepfreeze';
 
 function loadFacebookSDK(facebookState, action) {
 
@@ -104,7 +103,7 @@ const initialFacebookState = {
 };
 
 const FacebookReducer = (facebookState = initialFacebookState, action) => {
-	deepFreeze(facebookState);
+
 	switch (action.type) {
 		case Constants.FACEBOOK_LOAD_SDK:
 			return loadFacebookSDK(facebookState, action);

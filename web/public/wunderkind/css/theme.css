@@ -3511,9 +3511,6 @@ nav.navbar.nav-small {
 	left: auto;
 	right: 0;
 }
-.nav li.dropdown a i {
-	display: none;
-}
 /* Menu Hover Color */
 .navbar-nav .open .dropdown-menu>li>a:hover,
 .navbar-nav>.open>a:hover,
