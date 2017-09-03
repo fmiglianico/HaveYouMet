@@ -1,38 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import FacebookActionCreators from '../actions/FacebookActionCreators';
-import FacebookStore from '../stores/FacebookStore';
-import FacebookLogin from '../components/FacebookLogin';
-import FacebookPicture from '../components/FacebookPicture';
+import FacebookLogin from '../FacebookLogin';
+import FacebookPicture from '../FacebookPicture';
 
 class Navbar extends Component {
 
-	constructor() {
-		super();
-		this.state = this.getFacebookState();
-	}
-
-	getFacebookState() {
-		return {
-			accessToken: FacebookStore.accessToken,
-			loggedIn: FacebookStore.loggedIn,
-			userId: FacebookStore.userId,
-			facebookPictureStatus: FacebookStore.facebookPictureStatus,
-			facebookPictureUrl: FacebookStore.facebookPictureUrl
+	constructor(props) {
+		super(props);
+		this.state = {
+			facebookAuthData: props.facebookAuthData,
+			facebookPictureData: props.facebookPictureData
 		}
-	}
-
-	componentDidMount() {
-		FacebookActionCreators.initFacebook();
-		FacebookStore.addChangeListener(() => this._onFacebookChange());
-	}
-
-	componentWillUnmount() {
-		FacebookStore.removeChangeListener(this._onFacebookChange);
-	}
-
-	_onFacebookChange() {
-		this.setState(this.getFacebookState());
 	}
 
 	render() {
@@ -89,20 +68,22 @@ class Navbar extends Component {
 								<span className="dropdown myprofilemenu">
 									<a className="dropdown-toggle">
 										<div className="fb-login">
-											{!this.state.loggedIn ? <FacebookLogin /> : null}
-											{this.state.loggedIn ? (
+											{!this.props.facebookAuthData ? <FacebookLogin /> : null}
+											{this.props.facebookAuthData ? (
 												<FacebookPicture
-													facebookPictureUrl={this.state.facebookPictureUrl} />) : null}
+													facebookPictureUrl={this.props.facebookPictureData} />
+												) : null}
 										</div>
 									</a>
-									<div className="dropdown-menu fullwidth">
-										<div className="myprofilemenu-content withdesc">
-											<ul>
-												<li><a href="#">My Profile</a></li>
-												<li><a href="#">Logout</a></li>
-											</ul>
-										</div>
-									</div>
+									{this.props.facebookAuthData ? (
+										<div className="dropdown-menu fullwidth">
+											<div className="myprofilemenu-content withdesc">
+												<ul>
+													<li><a href="#">My Profile</a></li>
+													<li><a href="#">Logout</a></li>
+												</ul>
+											</div>
+										</div>) : null}
 								</span>
 							</ul>
 
@@ -114,4 +95,12 @@ class Navbar extends Component {
 	}
 }
 
-export default Navbar;
+const mapStateToProps = (state) => {
+	return {
+		facebookAuthData: state.facebookAuthData,
+		facebookPictureData: state.facebookPictureData,
+		test:'testt'
+	};
+};
+
+export default connect(mapStateToProps)(Navbar);

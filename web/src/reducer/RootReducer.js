@@ -1,8 +1,5 @@
-import { combineReducers } from 'redux'
+import FacebookReducer from './FacebookReducer';
 
-const rootReducer = combineReducers({
-	visibilityFilter,
-	todos
-})
+const rootReducer = FacebookReducer;
 
 export default rootReducer;

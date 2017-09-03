@@ -1,5 +1,6 @@
 import React from 'react';
 import FacebookActionCreators from '../actions/FacebookActionCreators';
+import store from '../stores/Store';
 
 class FacebookLogin extends React.Component {
     render() {
@@ -11,7 +12,7 @@ class FacebookLogin extends React.Component {
     }
 
     didClickFacebookLoginButton() {
-        FacebookActionCreators.login();
+        store.dispatch(FacebookActionCreators.facebookLogin());
     }
 }
 

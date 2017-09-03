@@ -1,58 +1,60 @@
-/*global FB*/
-
-import Constants from '../constants/Constants'
-
-const APP_ID = '1110690499060538';
+import * as Constants from '../constants/Constants';
 
 const FacebookActionCreators = {
 
-	loadFbSdk: function (appId, version) {
-		return new Promise(resolve => {
-			window.fbAsyncInit = function () {
-				FB.init({
-					appId: APP_ID,
-					xfbml: true,
-					cookie: true,
-					version: 'v2.5'
-				});
-			};
-			(function (d, s, id) {
-				const fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id)) {
-					return;
-				}
-				const js = d.createElement(s);
-				js.id = id;
-				js.src = '//connect.facebook.net/en_US/sdk.js';
-				fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));
-		});
+	loadFacebookSDK: function (appID, appVersion) {
+		return {
+			type: Constants.FACEBOOK_LOAD_SDK,
+			appID,
+			appVersion
+		}
 	},
 
-	getLoginStatus: function () {
-		return new Promise(resolve => {
-			window.FB.getLoginStatus(responseStatus => {
-				resolve(responseStatus);
-			});
-		});
+	facebookSDKLoaded: function () {
+		return {
+			type: Constants.FACEBOOK_LOAD_SDK_SUCCESS
+		}
 	},
 
-	fbLogin: function (options) {
-		return new Promise(resolve => {
-			window.FB.login(response => resolve(response), options);
-		});
+	facebookSDKLoadingError: function () {
+		return {
+			type: Constants.FACEBOOK_LOAD_SDK_FAILURE,
+			error: 'Error occurred while loading SDK'
+		}
 	},
 
-	fbLogout: function () {
-		return new Promise(resolve => {
-			window.FB.logout(response => resolve(response));
-		});
+	facebookLogin: function (options) {
+		return {
+			type: Constants.FACEBOOK_LOG_IN,
+			options
+		}
 	},
 
-	loadFBPicture: function(userId, pictureSize) {
-		return new Promise(resolve => {
-			window.FB.api('/' + userId +'/picture?type=' + pictureSize, (response) => resolve(response));
-		});
+	facebookLoginSuccess: function (facebookAuthData) {
+		return {
+			type: Constants.FACEBOOK_LOG_IN_SUCCESS,
+			facebookAuthData
+		}
+	},
+
+	facebookLoginError: function (error) {
+		return {
+			type: Constants.FACEBOOK_LOG_IN_FAILURE,
+			error
+		}
+	},
+
+	facebookCheckStatus: function () {
+		return {
+			type: Constants.FACEBOOK_CHECK_STATUS
+		}
+	},
+
+	facebookPictureLoaded: function(pictureURL) {
+		return {
+			type: Constants.FACEBOOK_GET_PICTURE_SUCCESS,
+			pictureURL
+		}
 	}
 };
 
