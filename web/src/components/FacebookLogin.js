@@ -5,14 +5,15 @@ import store from '../stores/Store';
 class FacebookLogin extends React.Component {
     render() {
         return (
-            <div className="fb-login-button btn btn-primary btn-xs btn-square"  onClick={this.didClickFacebookLoginButton}>
+            <div className="fb-login-button btn btn-primary btn-xs btn-square" onClick={this.didClickFacebookLoginButton}>
 				<i className="ion-social-facebook"></i>
             </div>
         );
     }
 
     didClickFacebookLoginButton() {
-        store.dispatch(FacebookActionCreators.facebookLogin());
+        console.info('click');
+        store.dispatch(FacebookActionCreators.facebookLogin({scope: 'public_profile,email'}));
     }
 }
 

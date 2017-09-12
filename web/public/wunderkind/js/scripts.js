@@ -522,15 +522,17 @@
         $('.nav li.dropdown>a, .dropdown-submenu>a').on('click', function () {
             $(this).closest('.dropdown').siblings().removeClass('open');
             $(this).closest('.dropdown').toggleClass('open');
-            return false;
         });
-        $('.nav li a, .btn-scroll').on('click', function () {
+        $('.nav li a.anchor, .btn-scroll').on('click', function () {
             var $anchor = $(this);
             function scrollToAnchor() {
-                $('html, body').stop().animate({
-                    scrollTop: $($anchor.attr('href')).offset().top - offsetVar
-                }, 1000, 'easeInOutExpo');
-                event.preventDefault();
+                console.info('hello');
+				if ($($anchor.attr('href')) && $($anchor.attr('href')).offset()) {
+                    $('html, body').stop().animate({
+                        scrollTop: $($anchor.attr('href')).offset().top - offsetVar
+                    }, 1000, 'easeInOutExpo');
+                    event.preventDefault();
+                }
             }
             if ($(window).width() > 992) {
                 var offsetVar = '59';

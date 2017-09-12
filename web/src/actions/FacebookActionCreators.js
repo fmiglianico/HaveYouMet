@@ -24,6 +24,7 @@ const FacebookActionCreators = {
 	},
 
 	facebookLogin: function (options) {
+		console.info('start facebook login', options)
 		return {
 			type: Constants.FACEBOOK_LOG_IN,
 			options
@@ -31,6 +32,7 @@ const FacebookActionCreators = {
 	},
 
 	facebookLoginSuccess: function (facebookAuthData) {
+		console.info('Logged in', facebookAuthData);
 		return {
 			type: Constants.FACEBOOK_LOG_IN_SUCCESS,
 			facebookAuthData
@@ -41,6 +43,19 @@ const FacebookActionCreators = {
 		return {
 			type: Constants.FACEBOOK_LOG_IN_FAILURE,
 			error
+		}
+	},
+
+	facebookLogout: function () {
+		return {
+			type: Constants.FACEBOOK_LOG_OUT
+		}
+	},
+
+	facebookLogoutSuccess: function () {
+		console.info('Logged out');
+		return {
+			type: Constants.FACEBOOK_LOG_OUT_SUCCESS
 		}
 	},
 

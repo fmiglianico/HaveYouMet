@@ -39,10 +39,9 @@
 
 .fb-login .fb-login-connected img {
 	padding: 2px;
-	height: 40px;
-	width: 40px;
+	height: 30px;
+	width: 30px;
 	border: 1px solid #b8a279;
-	margin-right: 10px;
 }
 
 .myprofilemenu .mg-col {
@@ -50,6 +49,11 @@
 	border-right: none;
 	padding: 4px 5px;
 }
+
+.myprofilemenu .dropdown-menu {
+	left: -100%;
+}
+
 
 .myprofilemenu .myprofilemenu-content a {
 	display: block;

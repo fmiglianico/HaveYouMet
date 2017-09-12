@@ -58,13 +58,16 @@ function facebookSDKLoaded(facebookState, action) {
 function facebookLogin(facebookState, action) {
 	switch (action.type) {
 		case Constants.FACEBOOK_LOG_IN:
+			console.info('Log in start');
 			new Promise(resolve => {
 				window.FB.login(response => resolve(response), action.options);
 			}).then(facebookAuthData => store.dispatch(FacebookActionCreators.facebookLoginSuccess(facebookAuthData)));
 			return facebookState;
 		case Constants.FACEBOOK_LOG_IN_SUCCESS:
+			console.info('Log in success start');
 			if (action.facebookAuthData.status === 'connected') {
-				window.FB.api('/' + action.facebookAuthData.authResponse.userID +'/picture?type=small', (response) => store.dispatch(FacebookActionCreators.facebookPictureLoaded(response.data.url)));
+				window.FB.api('/' + action.facebookAuthData.authResponse.userID +'/picture?type=small',
+					(response) => store.dispatch(FacebookActionCreators.facebookPictureLoaded(response.data.url)));
 				return Object.assign({}, facebookState, {
 					facebookAuthData: action.facebookAuthData.authResponse
 				});
@@ -75,16 +78,32 @@ function facebookLogin(facebookState, action) {
 	}
 };
 
-function facebookCheckStatus(facebookState, action) {
+function facebookLogout(facebookState, action) {
 	switch (action.type) {
-		case Constants.FACEBOOK_CHECK_STATUS:
+		case Constants.FACEBOOK_LOG_OUT:
 			new Promise(resolve => {
-				window.FB.getLoginStatus(response => resolve(response));
-			}).then(response => store.dispatch(FacebookActionCreators.facebookLoginSuccess(response)));
+				window.FB.logout(response => resolve(response), action.options);
+			}).then((response) => {store.dispatch(FacebookActionCreators.facebookLogoutSuccess()); console.info('logout response', response);});
 			return facebookState;
+		case Constants.FACEBOOK_LOG_OUT_SUCCESS:
+			return new Object.assign({}, facebookState, {
+				facebookAuthData: null,
+				facebookPictureData: null
+			});
 		default:
 			return facebookState;
 	}
+};
+
+function facebookCheckStatus(facebookState, action) {
+	new Promise(resolve => {
+		window.FB.getLoginStatus(response => resolve(response));
+	}).then(response => {
+		if (response.status === 'connected') {
+			store.dispatch(FacebookActionCreators.facebookLoginSuccess(response));
+		}
+	});
+	return facebookState;
 };
 
 function setFacebookPictureData(facebookState, action) {
@@ -117,6 +136,11 @@ const FacebookReducer = (facebookState = initialFacebookState, action) => {
 		case Constants.FACEBOOK_LOG_IN_FAILURE:
 			return facebookLogin(facebookState, action);
 
+		case Constants.FACEBOOK_LOG_OUT:
+		case Constants.FACEBOOK_LOG_OUT_SUCCESS:
+		case Constants.FACEBOOK_LOG_OUT_FAILURE:
+			return facebookLogout(facebookState, action);
+
 		case Constants.FACEBOOK_GET_PICTURE_SUCCESS:
 			return setFacebookPictureData(facebookState, action);
 
@@ -129,3 +153,6 @@ const FacebookReducer = (facebookState = initialFacebookState, action) => {
 };
 
 export default FacebookReducer;
+
+
+// window.FB.api('/me?fields=first_name,last_name,age_range,gender', response => {console.info('response', response); a = response;})

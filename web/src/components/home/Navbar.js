@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import FacebookLogin from '../FacebookLogin';
 import FacebookPicture from '../FacebookPicture';
+import FacebookLogout from "../FacebookLogout";
 
 class Navbar extends Component {
 
@@ -38,10 +39,10 @@ class Navbar extends Component {
 						<div className="container">
 							<ul className="nav navbar-nav menu-right">
 
-								<li><a href="#">Home</a></li>
-								<li><a href="#">About</a></li>
-								<li><a href="#">Services</a></li>
-								<li><a href="#">Work</a></li>
+								<li><a href="#" className="anchor">Home</a></li>
+								<li><a href="#" className="anchor">About</a></li>
+								<li><a href="#" className="anchor">Services</a></li>
+								<li><a href="#" className="anchor">Work</a></li>
 								<li className="dropdown megamenu vos">
 									<a className="dropdown-toggle">Elements<i className="ion-ios-arrow-down"></i></a>
 									<ul className="dropdown-menu fullwidth">
@@ -61,7 +62,7 @@ class Navbar extends Component {
 										</li>
 									</ul>
 								</li>
-								<li><a href="#">Contact</a></li>
+								<li><a href="#" className="anchor">Contact</a></li>
 
 								<li className="nav-separator"></li>
 
@@ -81,7 +82,9 @@ class Navbar extends Component {
 												<div className="col-md-3 mg-col">
 													<ul>
 														<li><a href="#">My Profile</a></li>
-														<li><a href="#">Logout</a></li>
+														<li>
+															<FacebookLogout/>
+														</li>
 													</ul>
 												</div>
 											</li>
@@ -100,8 +103,7 @@ class Navbar extends Component {
 const mapStateToProps = (state) => {
 	return {
 		facebookAuthData: state.facebookAuthData,
-		facebookPictureData: state.facebookPictureData,
-		test:'testt'
+		facebookPictureData: state.facebookPictureData
 	};
 };
 

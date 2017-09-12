@@ -1,19 +1,17 @@
 import React from 'react';
 
+import store from '../stores/Store';
 import FacebookActionCreators from '../actions/FacebookActionCreators';
 
 class FacebookLogout extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
-            <button ref="logoutButton" onClick={this.didClickFacebookLogoutButton}>Log Out of Facebook</button>
+            <a href="#" onClick={this.didClickFacebookLogoutButton}>Log Out</a>
         );
     }
 
-    didClickFacebookLogoutButton(e) {
-        FacebookActionCreators.logout()
+    didClickFacebookLogoutButton() {
+		store.dispatch(FacebookActionCreators.facebookLogout());
     }
 }
 
