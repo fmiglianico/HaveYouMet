@@ -54,22 +54,14 @@ var getAll = function (session) {
 
 // Create profile
 var createProfile = function (session, profile, likes) {
-	return session.run('MATCH (profile:Profile {id: {profileId}}) RETURN profile', {profileId: profile.id})
-		.then(results => {
-			if (!_.isEmpty(results.records)) {
-				throw {profileId: 'profileId already in use', status: 400}
-			}
-			else {
-				return session.run('CREATE (profile:Profile {id: {id}}) RETURN profile',
-					{
-						id: uuid.v4()
-					}
-				).then(results => {
-						return new Profile(results.records[0].get('profile'));
-					}
-				)
-			}
-		});
+	let newProfile = Object.assign({}, profile, {
+		id: uuid.v4()
+	});
+	return session.run('CREATE (profile:Profile {profile}) RETURN profile', {profile: newProfile}
+	).then(results => {
+			return new Profile(results.records[0].get('profile'));
+		}
+	)
 };
 
 module.exports = {

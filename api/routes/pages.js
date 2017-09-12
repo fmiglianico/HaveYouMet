@@ -41,7 +41,7 @@ exports.list = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/createPage:
+ * /api/v0/page:
  *   post:
  *     tags:
  *     - pages

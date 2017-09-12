@@ -59,10 +59,10 @@ api.use(function(req, res, next) {
 api.use(neo4jSessionCleanup);
 
 //api routes
-api.post('/createProfile', routes.profiles.createProfile);
+api.post('/profile', routes.profiles.createProfile);
 api.get('/profile', routes.profiles.list);
 api.get('/profile/:id', routes.profiles.findById);
-api.post('/createPage', routes.pages.createPage);
+api.post('/page', routes.pages.createPage);
 api.get('/pages', routes.pages.list);
 
 //api error handler

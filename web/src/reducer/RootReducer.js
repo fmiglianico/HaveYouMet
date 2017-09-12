@@ -1,5 +1,13 @@
-import FacebookReducer from './FacebookReducer';
+import { combineReducers } from 'redux';
 
-const rootReducer = FacebookReducer;
+import FacebookReducer from './FacebookReducer';
+import RegisterReducer from './RegisterReducer';
+
+const rootReducer = combineReducers(
+	{
+		FacebookReducer,
+		RegisterReducer
+	}
+);
 
 export default rootReducer;

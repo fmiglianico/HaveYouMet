@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
+import {Route} from 'react-router-dom';
 
-import Navbar from './components/home/Navbar.js';
-import Hero from './components/home/Hero.js';
-import About from './components/home/About.js';
-import Quotes from './components/home/Quotes.js';
-import Facts from './components/home/Facts.js';
-import Callout from './components/home/Callout.js';
-import Contact from './components/home/Contact.js';
-import Footer from './components/home/Footer.js';
+import Navbar from './components/home/Navbar';
+import Hero from './components/home/Hero';
+import About from './components/home/About';
+import Quotes from './components/home/Quotes';
+import Facts from './components/home/Facts';
+import Callout from './components/home/Callout';
+import Contact from './components/home/Contact';
+import Footer from './components/home/Footer';
+import Register from './components/Register';
 
 import store from './stores/Store'
 import FacebookActionCreators from './actions/FacebookActionCreators';
@@ -27,12 +29,17 @@ class App extends Component {
 		return (
 			<div>
 				<Navbar/>
-				<Hero/>
-				<About/>
-				<Quotes/>
-				<Facts/>
-				<Callout/>
-				<Contact/>
+				<Route path="/register" exact={true} component={Register}/>
+				<Route path="/" exact={true} render={() => (
+					<div>
+						<Hero/>
+						<About/>
+						<Quotes/>
+						<Facts/>
+						<Callout/>
+						<Contact/>
+					</div>
+				)} />
 				<Footer/>
 			</div>
 		);

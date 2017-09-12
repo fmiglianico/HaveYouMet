@@ -74,7 +74,7 @@ exports.findById = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/createProfile:
+ * /api/v0/profile:
  *   post:
  *     tags:
  *     - profile
