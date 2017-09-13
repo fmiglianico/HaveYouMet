@@ -1,5 +1,5 @@
 import React from 'react';
-import FacebookActionCreators from '../actions/FacebookActionCreators';
+import FacebookActionCreators from '../actions/FacebookActionCreator';
 import store from '../stores/Store';
 
 class FacebookLogin extends React.Component {
@@ -12,7 +12,6 @@ class FacebookLogin extends React.Component {
     }
 
     didClickFacebookLoginButton() {
-        console.info('click');
         store.dispatch(FacebookActionCreators.facebookLogin({scope: 'public_profile,email,user_likes,user_birthday,user_location'}));
     }
 }

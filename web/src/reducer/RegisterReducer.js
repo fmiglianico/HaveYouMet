@@ -5,6 +5,7 @@ import * as Constants from '../constants/Constants';
 import RegisterActionCreator from '../actions/RegisterActionCreator'
 
 function register(loginState, action) {
+	console.info('action.profile', action.profile);
 	switch (action.type) {
 		case Constants.REGISTER:
 			window.fetch('http://localhost:3000/api/v0/profile', {

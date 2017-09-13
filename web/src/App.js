@@ -12,7 +12,7 @@ import Footer from './components/home/Footer';
 import Register from './components/Register';
 
 import store from './stores/Store'
-import FacebookActionCreators from './actions/FacebookActionCreators';
+import FacebookActionCreators from './actions/FacebookActionCreator';
 
 import './App.css';
 

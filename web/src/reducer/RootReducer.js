@@ -6,7 +6,7 @@ import RegisterReducer from './RegisterReducer';
 const rootReducer = combineReducers(
 	{
 		facebook: FacebookReducer,
-		login: RegisterReducer
+		register: RegisterReducer
 	}
 );
 

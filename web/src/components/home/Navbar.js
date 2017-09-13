@@ -22,12 +22,6 @@ class Navbar extends Component {
 
 					<div className="navbar-header">
 						<div className="container">
-							<button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-								<span className="sr-only">Toggle navigation</span>
-								<span className="icon-bar top-bar"></span>
-								<span className="icon-bar middle-bar"></span>
-								<span className="icon-bar bottom-bar"></span>
-							</button>
 							<a className="navbar-brand to-top" href="#">
 								<img src="wunderkind/img/assets/logo-light.png" className="logo-light" alt="#"/>
 								<img src="wunderkind/img/assets/logo-dark.png" className="logo-dark" alt="#"/>
@@ -40,9 +34,6 @@ class Navbar extends Component {
 							<ul className="nav navbar-nav menu-right">
 
 								<li><a href="#" className="anchor">Home</a></li>
-								<li><a href="#" className="anchor">About</a></li>
-								<li><a href="#" className="anchor">Services</a></li>
-								<li><a href="#" className="anchor">Work</a></li>
 								<li className="dropdown megamenu vos">
 									<a className="dropdown-toggle">Elements<i className="ion-ios-arrow-down"></i></a>
 									<ul className="dropdown-menu fullwidth">
@@ -98,12 +89,12 @@ class Navbar extends Component {
 			</nav>
 		);
 	}
-}
+};
 
 const mapStateToProps = (state) => {
 	return {
-		facebookAuthData: state.facebookAuthData,
-		facebookPictureData: state.facebookPictureData
+		facebookAuthData: state.facebook.facebookAuthData,
+		facebookPictureData: state.facebook.facebookPictureData
 	};
 };
 

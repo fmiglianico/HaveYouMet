@@ -53,7 +53,6 @@ const FacebookActionCreators = {
 	},
 
 	facebookLogoutSuccess: function () {
-		console.info('Logged out');
 		return {
 			type: Constants.FACEBOOK_LOG_OUT_SUCCESS
 		}
@@ -69,6 +68,26 @@ const FacebookActionCreators = {
 		return {
 			type: Constants.FACEBOOK_GET_PICTURE_SUCCESS,
 			pictureURL
+		}
+	},
+
+	facebookRetrievePersonalInfo : function() {
+		return {
+			type: Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO
+		}
+	},
+
+	facebookRetrievePersonalInfoSuccess : function(facebookProfile) {
+		return {
+			type: Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO_SUCCESS,
+			facebookProfile
+		}
+	},
+
+	facebookRetrievePersonalInfoFailure : function(error) {
+		return {
+			type: Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO_FAILURE,
+			error
 		}
 	}
 };

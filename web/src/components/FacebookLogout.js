@@ -1,7 +1,7 @@
 import React from 'react';
 
 import store from '../stores/Store';
-import FacebookActionCreators from '../actions/FacebookActionCreators';
+import FacebookActionCreators from '../actions/FacebookActionCreator';
 
 class FacebookLogout extends React.Component {
     render() {
