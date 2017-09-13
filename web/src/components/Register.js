@@ -31,7 +31,6 @@ class Register extends React.Component {
             </section>
         );
     }
-
     handleFirstNameChange(event) {
 		this.setState({
 			firstName: event.target.value

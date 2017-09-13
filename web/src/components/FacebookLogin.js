@@ -13,7 +13,7 @@ class FacebookLogin extends React.Component {
 
     didClickFacebookLoginButton() {
         console.info('click');
-        store.dispatch(FacebookActionCreators.facebookLogin({scope: 'public_profile,email'}));
+        store.dispatch(FacebookActionCreators.facebookLogin({scope: 'public_profile,email,user_likes,user_birthday,user_location'}));
     }
 }
 

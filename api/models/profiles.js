@@ -1,10 +1,10 @@
-var _ = require('lodash');
-var uuid = require('node-uuid');
-var Profile = require('./neo4j/profile');
+let _ = require('lodash');
+let uuid = require('node-uuid');
+let Profile = require('./neo4j/profile');
 
-var _singleProfileWithLikes = function (record) {
+let _singleProfileWithLikes = function (record) {
 	if (record.length) {
-		var result = {};
+		let result = {};
 		_.extend(result, new Profile(record.get('profile')));
 		// mappings are temporary until the neo4j driver team decides what to do about numbers
 		result.likes = _.map(record.get('likes'), page => {
@@ -26,8 +26,8 @@ function _manyProfiles(neo4jResult) {
 }
 
 // get a single person by id
-var getById = function (session, id) {
-	var query = [
+let getById = function (session, id) {
+	let query = [
 		'MATCH (profile:Profile {id:{id}})',
 		'OPTIONAL MATCH (profile)-[:LIKES]->(page:Page)',
 		'RETURN DISTINCT person,',
@@ -47,13 +47,13 @@ var getById = function (session, id) {
 };
 
 // Get all profiles
-var getAll = function (session) {
+let getAll = function (session) {
 	return session.run('MATCH (profile:Profile) RETURN profile')
 		.then(result => _manyProfiles(result));
 };
 
 // Create profile
-var createProfile = function (session, profile, likes) {
+let createProfile = function (session, profile, likes) {
 	let newProfile = Object.assign({}, profile, {
 		id: uuid.v4()
 	});

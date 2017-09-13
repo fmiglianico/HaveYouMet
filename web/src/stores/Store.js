@@ -6,4 +6,6 @@ let store = createStore(rootReducer);
 
 window.store = store;
 
+store.subscribe(() => console.info('new state', store.getState()));
+
 export default store;

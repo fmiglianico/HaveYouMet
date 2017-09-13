@@ -155,4 +155,5 @@ const FacebookReducer = (facebookState = initialFacebookState, action) => {
 export default FacebookReducer;
 
 
-// window.FB.api('/me?fields=first_name,last_name,age_range,gender', response => {console.info('response', response); a = response;})
+// window.FB.api('/me?fields=first_name,last_name,age_range,gender,birthday,location', response => {console.info('response', response); a = response;})
+// window.FB.api('/me/likes', {'limit': '2000'}, response => {console.info('response', response); a = response;})
