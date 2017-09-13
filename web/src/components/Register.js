@@ -8,8 +8,6 @@ class Register extends Component {
 	constructor(props) {
 		super(props);
 
-		console.info('init');
-
 		this.state = {
 			profile: {
 				name: '',
@@ -30,7 +28,7 @@ class Register extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (!this.state.profile.firstName && nextProps.facebookProfile) {
+		if (!this.state.profile.name && nextProps.facebookProfile) {
 			this.setState({
 				profile: {
 					name: nextProps.facebookProfile.first_name,
