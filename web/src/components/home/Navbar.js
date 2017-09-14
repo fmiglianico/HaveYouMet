@@ -10,8 +10,8 @@ class Navbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			facebookAuthData: props.facebookAuthData,
-			facebookPictureData: props.facebookPictureData
+			facebookAuth: props.facebookAuth,
+			facebookPicture: props.facebookPicture
 		}
 	}
 
@@ -60,14 +60,11 @@ class Navbar extends Component {
 								<li className="dropdown myprofilemenu">
 									<a className="dropdown-toggle">
 										<div className="fb-login">
-											{!this.props.facebookAuthData ? <FacebookLogin /> : null}
-											{this.props.facebookAuthData && this.props.facebookPictureData ? (
-												<FacebookPicture
-													facebookPictureUrl={this.props.facebookPictureData} />
-												) : null}
+											{!this.props.facebookAuth.fetched ? <FacebookLogin /> :
+												<FacebookPicture facebookPictureUrl={this.props.facebookPicture.data} /> }
 										</div>
 									</a>
-									{this.props.facebookAuthData && this.props.facebookPictureData ? (
+									{this.props.facebookAuth.fetched && this.props.facebookPicture.fetched ? (
 										<ul className="dropdown-menu fullwidth">
 											<li className="myprofilemenu-content withdesc">
 												<div className="col-md-3 mg-col">
@@ -93,8 +90,8 @@ class Navbar extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		facebookAuthData: state.facebook.facebookAuthData,
-		facebookPictureData: state.facebook.facebookPictureData
+		facebookAuth: state.facebook.facebookAuth,
+		facebookPicture: state.facebook.facebookPicture
 	};
 };
 

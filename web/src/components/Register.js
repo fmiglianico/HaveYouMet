@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import RegisterActionCreator from '../actions/RegisterActionCreator';
+import FacebookActionCreator from '../actions/FacebookActionCreator';
 import store from '../stores/Store';
 
 class Register extends Component {
@@ -28,15 +29,18 @@ class Register extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (!this.state.profile.name && nextProps.facebookProfile) {
+		if (!this.state.profile.name && nextProps.facebookAuth.fetched
+				&& !nextProps.facebookProfile.fetching && !nextProps.facebookProfile.fetched) {
+			store.dispatch(FacebookActionCreator.retrievePersonalInfo());
+		} else if (!this.state.profile.name && nextProps.facebookProfile.fetched) {
 			this.setState({
 				profile: {
-					name: nextProps.facebookProfile.first_name,
-					gender: nextProps.facebookProfile.gender,
-					interestedIn: nextProps.facebookProfile.gender === 'male' ? 'female' : 'male',
-					birthday: nextProps.facebookProfile.birthday,
-					location: nextProps.facebookProfile.location.name,
-					facebookId: nextProps.facebookAuthData.userID
+					name: nextProps.facebookProfile.data.first_name,
+					gender: nextProps.facebookProfile.data.gender,
+					interestedIn: nextProps.facebookProfile.data.gender === 'male' ? 'female' : 'male',
+					birthday: nextProps.facebookProfile.data.birthday,
+					location: nextProps.facebookProfile.data.location.name,
+					facebookId: nextProps.facebookAuth.data.userID
 				}
 			});
 		}
@@ -150,8 +154,8 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		facebookAuthData: state.facebook.facebookAuthData,
-		facebookPictureData: state.facebook.facebookPictureData,
+		facebookAuth: state.facebook.facebookAuth,
+		facebookPicture: state.facebook.facebookPicture,
 		facebookProfile: state.facebook.facebookProfile
 	};
 };

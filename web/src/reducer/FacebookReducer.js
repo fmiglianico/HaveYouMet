@@ -1,134 +1,199 @@
 /*global FB*/
 
-import store from '../stores/Store';
 import * as Constants from '../constants/Constants';
-import FacebookActionCreator from '../actions/FacebookActionCreator'
 
-function loadFacebookSDK(facebookState, action) {
-
-	new Promise(resolve => {
-		window.fbAsyncInit = function () {
-			FB.init({
-				appId: action.appID,
-				xfbml: true,
-				cookie: true,
-				version: action.appVersion
-			});
-			FB.AppEvents.logPageView();
-			resolve();
-		};
-		(function (d, s, id) {
-			const fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) {
-				return;
-			}
-			const js = d.createElement(s);
-			js.id = id;
-			js.src = '//connect.facebook.net/en_US/sdk.js';
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	}).then(() => {
-		store.dispatch(FacebookActionCreator.facebookSDKLoaded());
-		store.dispatch(FacebookActionCreator.facebookCheckStatus());
-	});
-	return facebookState;
-};
-
-function facebookSDKLoaded(facebookState, action) {
+function loadSDK(facebookState, action) {
 	switch (action.type) {
-		case Constants.FACEBOOK_LOAD_SDK_SUCCESS:
-			return Object.assign({}, facebookState, {
+		case Constants.FACEBOOK_LOAD_SDK(Constants.PENDING):
+			return {
+				...facebookState,
 				facebookSDK: {
-					loaded: true
+					fetching: true
 				}
-			});
-		case Constants.FACEBOOK_LOAD_SDK_FAILURE:
-			return Object.assign({}, facebookState, {
+			};
+		case Constants.FACEBOOK_LOAD_SDK(Constants.FULFILLED):
+			return {
+				...facebookState,
 				facebookSDK: {
-					loaded: false,
-					error: action.error
+					fetching: false,
+					fetched: true
 				}
-			});
+			};
+		case Constants.FACEBOOK_LOAD_SDK(Constants.REJECTED):
+			return {
+				...facebookState,
+				facebookSDK: {
+					fetching: false,
+					fetched: false,
+					error: action.payload
+				}
+			};
 
 		default:
 			return facebookState
 	}
-};
+}
 
-function facebookLogin(facebookState, action) {
+function login(facebookState, action) {
 	switch (action.type) {
-		case Constants.FACEBOOK_LOG_IN:
-			new Promise(resolve => {
-				window.FB.login(response => resolve(response), action.options);
-			}).then(facebookAuthData => {
-				store.dispatch(FacebookActionCreator.facebookLoginSuccess(facebookAuthData));
-				store.dispatch(FacebookActionCreator.facebookRetrievePersonalInfo());
-			});
-			return facebookState;
-		case Constants.FACEBOOK_LOG_IN_SUCCESS:
-			if (action.facebookAuthData.status === 'connected') {
-				window.FB.api('/' + action.facebookAuthData.authResponse.userID +'/picture?type=small',
-					(response) => store.dispatch(FacebookActionCreator.facebookPictureLoaded(response.data.url)));
-				return Object.assign({}, facebookState, {
-					facebookAuthData: action.facebookAuthData.authResponse
-				});
+		case Constants.FACEBOOK_LOG_IN(Constants.PENDING):
+			return {
+				...facebookState,
+				facebookAuth: {
+					fetching: true
+				}
+			};
+		case Constants.FACEBOOK_LOG_IN(Constants.FULFILLED):
+			if (action.payload.status && action.payload.status === 'connected') {
+				return {
+					...facebookState,
+					facebookAuth: {
+						fetching: false,
+						fetched: true,
+						data: action.payload.authResponse
+					}
+				};
 			}
 			return facebookState;
+		case Constants.FACEBOOK_LOG_IN(Constants.REJECTED):
+			return {
+				...facebookState,
+				facebookAuth: {
+					fetching: false,
+					fetched: false,
+					error: action.payload
+				}
+			};
 		default:
 			return facebookState;
 	}
-};
+}
 
-function facebookLogout(facebookState, action) {
+function logout(facebookState, action) {
 	switch (action.type) {
-		case Constants.FACEBOOK_LOG_OUT:
-			new Promise(resolve => {
-				window.FB.logout(response => resolve(response), action.options);
-			}).then((response) => {store.dispatch(FacebookActionCreator.facebookLogoutSuccess()); console.info('logout response', response);});
+		case Constants.FACEBOOK_LOG_OUT(Constants.PENDING):
 			return facebookState;
-		case Constants.FACEBOOK_LOG_OUT_SUCCESS:
-			return new Object.assign({}, facebookState, {
-				facebookAuthData: null,
-				facebookPictureData: null
-			});
+		case Constants.FACEBOOK_LOG_OUT(Constants.FULFILLED):
+			return {
+				...facebookState,
+				facebookAuth: {
+					fetched: false,
+					fetching: false,
+					error: null,
+					data: null
+				},
+				facebookPicture: {
+					fetched: false,
+					fetching: false,
+					error: null,
+					data: null
+				}
+			};
 		default:
 			return facebookState;
 	}
-};
+}
 
-function facebookCheckStatus(facebookState, action) {
-	new Promise(resolve => {
-		window.FB.getLoginStatus(response => resolve(response));
-	}).then(response => {
-		if (response.status === 'connected') {
-			store.dispatch(FacebookActionCreator.facebookLoginSuccess(response));
-			store.dispatch(FacebookActionCreator.facebookRetrievePersonalInfo());
-		}
-	});
-	return facebookState;
-};
-
-function setFacebookPictureData(facebookState, action) {
-	return Object.assign({}, facebookState, {
-		facebookPictureData: action.pictureURL
-	});
-};
-
-
-
-function facebookRetrievePersonalInfo(facebookState, action) {
+function checkStatus(facebookState, action) {
 	switch (action.type) {
-		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO:
-			new Promise(resolve => {
-				window.FB.api('/me?fields=first_name,last_name,gender,birthday,location',
-					response => resolve(response));
-			}).then(facebookProfile => store.dispatch(FacebookActionCreator.facebookRetrievePersonalInfoSuccess(facebookProfile)));
+		case Constants.FACEBOOK_CHECK_STATUS(Constants.PENDING):
+			return {
+				...facebookState,
+				facebookCheckStatus: {
+					fetching: true
+				}
+			};
+		case Constants.FACEBOOK_CHECK_STATUS(Constants.FULFILLED):
+			if (action.payload.status === 'connected') {
+				return {
+					...facebookState,
+					facebookCheckStatus: {
+						fetching: false,
+						fetched: true,
+					},
+					facebookAuth: {
+						fetching: false,
+						fetched: true,
+						data: action.payload.authResponse
+					}
+				};
+			}
 			return facebookState;
-		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO_SUCCESS:
-			console.info('facebookProfile', action.facebookProfile);
-			return Object.assign({}, facebookState, {
-				facebookProfile: action.facebookProfile
-			});
+		case Constants.FACEBOOK_CHECK_STATUS(Constants.REJECTED):
+			return {
+				...facebookState,
+				facebookCheckStatus: {
+					fetching: false,
+					fetched: false,
+					error: action.payload
+				}
+			};
+		default:
+			return facebookState;
+	}
+}
+
+function loadPicture(facebookState, action) {
+	switch (action.type) {
+		case Constants.FACEBOOK_LOAD_PICTURE(Constants.PENDING):
+			return {
+				...facebookState,
+				facebookPicture: {
+					fetching: true
+				}
+			};
+		case Constants.FACEBOOK_LOAD_PICTURE(Constants.FULFILLED):
+			return {
+				...facebookState,
+				facebookPicture: {
+					fetching: false,
+					fetched: true,
+					data: action.payload.data
+				}
+			};
+		case Constants.FACEBOOK_LOAD_PICTURE(Constants.REJECTED):
+			return {
+				...facebookState,
+				facebookPicture: {
+					fetching: false,
+					fetched: false,
+					error: action.payload
+				}
+			};
+		default:
+			return facebookState;
+	}
+}
+
+
+
+function retrievePersonalInfo(facebookState, action) {
+	switch (action.type) {
+		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO(Constants.PENDING):
+			return {
+				...facebookState,
+				facebookProfile: {
+					fetching: true
+				}
+			};
+		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO(Constants.FULFILLED):
+			return {
+				...facebookState,
+				facebookProfile: {
+					fetching: false,
+					fetched: true,
+					data: action.payload
+				}
+			};
+		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO(Constants.REJECTED):
+			return {
+				...facebookState,
+				facebookProfile: {
+					fetching: false,
+					fetched: false,
+					error: action.payload
+				}
+			};
 		default:
 			return facebookState;
 	}
@@ -136,44 +201,67 @@ function facebookRetrievePersonalInfo(facebookState, action) {
 
 const initialFacebookState = {
 	facebookSDK: {
-		loaded: false,
+		fetched: false,
+		fetching: false,
 		error: null
 	},
-	facebookAuthData: null,
-	facebookPictureData: null,
-	facebookProfile: null
+	facebookAuth: {
+		fetched: false,
+		fetching: false,
+		error: null,
+		data: null
+	},
+	facebookPicture: {
+		fetched: false,
+		fetching: false,
+		error: null,
+		data: null
+	},
+	facebookProfile: {
+		fetched: false,
+		fetching: false,
+		error: null,
+		data: null
+	},
+	facebookCheckStatus: {
+		fetched: false,
+		fetching: false,
+		error: null
+	}
 };
 
 const FacebookReducer = (facebookState = initialFacebookState, action) => {
 
 	switch (action.type) {
-		case Constants.FACEBOOK_LOAD_SDK:
-			return loadFacebookSDK(facebookState, action);
+		case Constants.FACEBOOK_LOAD_SDK(Constants.PENDING):
+		case Constants.FACEBOOK_LOAD_SDK(Constants.FULFILLED):
+		case Constants.FACEBOOK_LOAD_SDK(Constants.REJECTED):
+			return loadSDK(facebookState, action);
 
-		case Constants.FACEBOOK_LOAD_SDK_SUCCESS:
-		case Constants.FACEBOOK_LOAD_SDK_FAILURE:
-			return facebookSDKLoaded(facebookState, action);
+		case Constants.FACEBOOK_LOG_IN(Constants.PENDING):
+		case Constants.FACEBOOK_LOG_IN(Constants.FULFILLED):
+		case Constants.FACEBOOK_LOG_IN(Constants.REJECTED):
+			return login(facebookState, action);
 
-		case Constants.FACEBOOK_LOG_IN:
-		case Constants.FACEBOOK_LOG_IN_SUCCESS:
-		case Constants.FACEBOOK_LOG_IN_FAILURE:
-			return facebookLogin(facebookState, action);
+		case Constants.FACEBOOK_LOG_OUT(Constants.PENDING):
+		case Constants.FACEBOOK_LOG_OUT(Constants.FULFILLED):
+		case Constants.FACEBOOK_LOG_OUT(Constants.REJECTED):
+			return logout(facebookState, action);
 
-		case Constants.FACEBOOK_LOG_OUT:
-		case Constants.FACEBOOK_LOG_OUT_SUCCESS:
-		case Constants.FACEBOOK_LOG_OUT_FAILURE:
-			return facebookLogout(facebookState, action);
+		case Constants.FACEBOOK_LOAD_PICTURE(Constants.PENDING):
+		case Constants.FACEBOOK_LOAD_PICTURE(Constants.FULFILLED):
+		case Constants.FACEBOOK_LOAD_PICTURE(Constants.REJECTED):
+			return loadPicture(facebookState, action);
 
-		case Constants.FACEBOOK_GET_PICTURE_SUCCESS:
-			return setFacebookPictureData(facebookState, action);
+		case Constants.FACEBOOK_CHECK_STATUS(Constants.PENDING):
+		case Constants.FACEBOOK_CHECK_STATUS(Constants.FULFILLED):
+		case Constants.FACEBOOK_CHECK_STATUS(Constants.REJECTED):
+			return checkStatus(facebookState, action);
 
-		case Constants.FACEBOOK_CHECK_STATUS:
-			return facebookCheckStatus(facebookState, action);
-
-		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO:
-		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO_SUCCESS:
-		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO_FAILURE:
-			return facebookRetrievePersonalInfo(facebookState, action);
+		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO(Constants.PENDING):
+		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO(Constants.FULFILLED):
+		case Constants.FACEBOOK_RETRIEVE_PERSONAL_INFO(Constants.REJECTED):
+			return retrievePersonalInfo(facebookState, action);
 
 		default:
 			return facebookState;

@@ -1,27 +1,15 @@
+import axios from 'axios';
+
 import * as Constants from '../constants/Constants';
 
 const RegisterActionCreators = {
 
 	register: function (profile) {
 		return {
-			type: Constants.REGISTER,
-			profile
+			type: Constants.REGISTER(),
+			payload: axios.post('http://localhost:3000/api/v0/profile', {profile: profile})
 		}
 	},
-
-	registerSuccess: function (registerResponse) {
-		return {
-			type: Constants.REGISTER_SUCCESS,
-			registerResponse
-		}
-	},
-
-	registerFailure: function (registerResponse) {
-		return {
-			type: Constants.REGISTER_FAILURE,
-			registerResponse
-		}
-	}
 };
 
 

@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import {Route} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 import Navbar from './components/home/Navbar';
 import Hero from './components/home/Hero';
@@ -21,8 +22,8 @@ const APP_ID = '1110690499060538';
 const APP_VERSION = 'v2.5';
 
 class App extends Component {
-	componentDidMount() {
-		store.dispatch(FacebookActionCreators.loadFacebookSDK(APP_ID, APP_VERSION));
+	componentWillMount() {
+		store.dispatch(FacebookActionCreators.loadSDK(APP_ID, APP_VERSION));
 	}
 
 	render() {
@@ -46,4 +47,10 @@ class App extends Component {
 	}
 }
 
-export default App;
+const mapStateToProps = (store) => {
+	return {
+		loggedIn: store.facebook.facebookAuthData
+	};
+};
+
+export default connect(mapStateToProps)(App);
