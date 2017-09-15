@@ -11,7 +11,7 @@ class FacebookLogout extends React.Component {
     }
 
     didClickFacebookLogoutButton() {
-		store.dispatch(FacebookActionCreators.facebookLogout());
+		store.dispatch(FacebookActionCreators.logout());
     }
 }
 
