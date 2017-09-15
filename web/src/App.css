@@ -37,6 +37,10 @@
 	margin: 0;
 }
 
+.fb-login .fb-login-button i {
+	padding-left: 2px;
+}
+
 .fb-login .fb-login-connected img {
 	padding: 2px;
 	height: 30px;

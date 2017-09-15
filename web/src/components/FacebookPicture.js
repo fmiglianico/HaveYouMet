@@ -33,8 +33,8 @@ class FacebookPicture extends React.Component {
     render() {
         return (
             <div className="fb-login-connected ">
-                <img src={this.state.facebookPictureURL} alt="Facebook" className="img-circle"></img>
-				<i className="ion-chevron-down"></i>
+                <img src={this.state.facebookPictureURL} alt="Facebook" className="img-circle"/>
+				<i className="ion-chevron-down"/>
             </div>
         );
     }
