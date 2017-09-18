@@ -12,15 +12,13 @@ class Register extends Component {
 		super(props);
 
 		this.state = {
-			profile: {
-				name: '',
-				gender: 'male',
-				interestedIn: 'female',
-				type: '',
-				birthday: '',
-				location: '',
-				facebookId: ''
-			}
+			name: '',
+			gender: 'male',
+			interestedIn: 'female',
+			type: '',
+			birthday: '',
+			location: '',
+			facebookId: ''
 		};
 
 		this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -28,32 +26,34 @@ class Register extends Component {
 		this.didClickRegisterButton = this.didClickRegisterButton.bind(this);
 		this.didClickSingleButton = this.didClickSingleButton.bind(this);
 		this.didClickFriendButton = this.didClickFriendButton.bind(this);
+		this.handleGenderChange = this.handleGenderChange.bind(this);
+		this.handleInterestedInChange = this.handleInterestedInChange.bind(this);
+		this.handleBirthdayChange = this.handleBirthdayChange.bind(this);
+		this.handleLocationChange = this.handleLocationChange.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (!this.state.profile.name && nextProps.facebookAuth.fetched
+		if (!this.state.name && nextProps.facebookAuth.fetched
 			&& !nextProps.facebookProfile.fetching && !nextProps.facebookProfile.fetched) {
 			store.dispatch(FacebookActionCreator.retrievePersonalInfo());
-		} else if (!this.state.profile.name && nextProps.facebookProfile.fetched) {
+		} else if (!this.state.name && nextProps.facebookProfile.fetched) {
 			this.setState({
-				profile: {
-					name: nextProps.facebookProfile.data.first_name,
-					gender: nextProps.facebookProfile.data.gender,
-					interestedIn: nextProps.facebookProfile.data.gender === 'male' ? 'female' : 'male',
-					birthday: nextProps.facebookProfile.data.birthday,
-					location: nextProps.facebookProfile.data.location.name,
-					facebookId: nextProps.facebookAuth.data.userID
-				}
+				name: nextProps.facebookProfile.data.first_name,
+				gender: nextProps.facebookProfile.data.gender,
+				interestedIn: nextProps.facebookProfile.data.gender === 'male' ? 'female' : 'male',
+				birthday: nextProps.facebookProfile.data.birthday,
+				location: nextProps.facebookProfile.data.location.name,
+				facebookId: nextProps.facebookAuth.data.userID
 			});
 		}
 	}
 
 	render() {
+
+		const registerButtonClass = this.state.type ? '' : 'hidden';
+
 		return (
 			<section id="register" className="blog">
-				{/*<div className="background-image">
-					<img src="wunderkind/img/backgrounds/bg-1.jpg" alt="#"/>
-				</div>*/}
 
 				<div className="container">
 					<div className="row col-md-6 col-md-push-3 form">
@@ -61,22 +61,32 @@ class Register extends Component {
 
 						<label htmlFor="firstName">First Name</label>
 						<input type="text" id="firstName" onChange={this.handleFirstNameChange}
-							   value={this.state.profile.name}/>
+							   value={this.state.name}/>
 
 						<div className="buttons-tabs-centered">
 
 							<ul id="buttonTabs" className="nav-tabs nav-tabs-center register-choice-button">
-								<li><a href="#tab-single" onClick={this.didClickSingleButton}>I'm single</a></li>
-								<li><a href="#tab-friend" onClick={this.didClickFriendButton}>I'm helping a friend</a>
+								<li className={this.state.type === 'single' ? 'active' : ''}>
+									<a href="#" onClick={this.didClickSingleButton}>I'm single</a>
+								</li>
+								<li className={this.state.type === 'friend' ? 'active' : ''}>
+									<a href="#" onClick={this.didClickFriendButton}>I'm helping a friend</a>
 								</li>
 							</ul>
 
-							<div className="tab-content">
-								<div className="tab-pane active">
-									{ this.state.profile.type === 'single' ? <RegisterAsSingle register={this.didClickRegisterButton}/> : null }
-									{ this.state.profile.type === 'friend' ? <RegisterAsFriend register={this.didClickRegisterButton}/> : null }
-								</div>
-							</div>
+							{ this.state.type === 'single' ?
+								<RegisterAsSingle
+									register={this.didClickRegisterButton}
+									handleGenderChange={this.handleGenderChange} gender={this.state.gender}
+									handleInterestedInChange={this.handleInterestedInChange} interestedIn={this.state.interestedIn}
+									handleLocationChange={this.handleLocationChange} location={this.state.location}
+									handleBirthdayChange={this.handleBirthdayChange} birthday={this.state.birthday}
+									/> : null }
+							{ this.state.type === 'friend' ? <RegisterAsFriend register={this.didClickRegisterButton}/> : null }
+
+							<button className={'btn btn-primary btn-sm btn-round ' + registerButtonClass} onClick={this.didClickRegisterButton}>
+							Register
+							</button>
 
 						</div>
 					</div>
@@ -87,38 +97,54 @@ class Register extends Component {
 
 	handleFirstNameChange(event) {
 		this.setState({
-			profile: {
-				name: event.target.value
-			}
+			name: event.target.value
 		});
 	}
 
 	handleTypeChange(event) {
 		this.setState({
-			profile: {
-				type: event.target.value
-			}
+			type: event.target.value
 		})
 	}
 
 	didClickSingleButton() {
 		this.setState({
-			profile: {
-				type: 'single'
-			}
+			type: 'single'
 		})
 	}
 
 	didClickFriendButton() {
 		this.setState({
-			profile: {
-				type: 'friend'
-			}
+			type: 'friend'
 		})
 	}
 
+	handleGenderChange(event) {
+		this.setState({
+			gender: event.target.value
+		});
+	}
+
+	handleInterestedInChange(event) {
+		this.setState({
+			interestedIn: event.target.value
+		});
+	}
+
+	handleLocationChange(event) {
+		this.setState({
+			location: event.target.value
+		});
+	}
+
+	handleBirthdayChange(event) {
+		this.setState({
+			birthday: event.target.value
+		});
+	}
+
 	didClickRegisterButton() {
-		store.dispatch(RegisterActionCreator.register(this.state.profile));
+		store.dispatch(RegisterActionCreator.register(this.state));
 	}
 }
 

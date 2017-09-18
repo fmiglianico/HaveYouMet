@@ -31,10 +31,6 @@ class RegisterAsFriend extends Component {
         return (
 			<div>
 				<h2>Register as friend</h2>
-
-				<button className="btn btn-primary btn-sm btn-round" onClick={this.props.register}>
-					Register
-				</button>
 			</div>
         );
     }
