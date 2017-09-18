@@ -2206,7 +2206,8 @@ fieldset[disabled] .btn-primary.active, fieldset[disabled] .btn-primary.focus, f
 .nav-tabs { border-bottom: none; }
 .tab-pane p { line-height: 24px; }
 .tab-content { position: relative; }
-.tab-content>.tab-pane { display: block; }
+.tab-content>.tab-pane { display: none; }
+.tab-content>.tab-pane.active { display: block; }
 .tab-pane {
 	position: absolute;
 	opacity: 0;

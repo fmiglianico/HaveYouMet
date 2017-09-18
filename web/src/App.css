@@ -77,3 +77,17 @@
 	-moz-transform: translateX(5px);
 	transform: translateX(5px);
 }
+
+#register .register-choice-button {
+	width: 100%;
+}
+
+#register .register-choice-button li {
+	width: 50%;
+	text-align: center;
+	padding: 0 5px;
+}
+
+#register .register-choice-button li a {
+	width: 100%;
+}
