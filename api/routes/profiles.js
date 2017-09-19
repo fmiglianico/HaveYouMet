@@ -39,17 +39,17 @@ exports.list = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/profile/{id}:
+ * /api/v0/profile/{facebookId}:
  *   get:
  *     tags:
  *     - profile
- *     description: Returns a profile by id
- *     summary: Returns a profile by id
+ *     description: Returns a profile by facebook id
+ *     summary: Returns a profile by facebook id
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: id
- *         description: Profile id
+ *       - name: facebookId
+ *         description: Facebook ID
  *         in: path
  *         required: true
  *         type: integer
@@ -63,13 +63,13 @@ exports.list = function (req, res, next) {
  *       404:
  *         description: Profile not found
  */
-exports.findById = function (req, res, next) {
-  var id = req.params.id;
-  if (!id) throw {message: 'Invalid id', status: 400};
+exports.findByFacebookId = function (req, res, next) {
+	const facebookId = req.params.facebookId;
+	if (!facebookId) throw {message: 'Invalid facebook id', status: 400};
 
-  Profiles.getById(dbUtils.getSession(req), id)
-    .then(response => writeResponse(res, response))
-    .catch(next);
+	Profiles.getByFacebookId(dbUtils.getSession(req), facebookId)
+		.then(response => writeResponse(res, response))
+		.catch(next);
 };
 
 /**

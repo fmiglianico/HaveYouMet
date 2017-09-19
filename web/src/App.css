@@ -91,3 +91,7 @@
 #register .register-choice-button li a {
 	width: 100%;
 }
+
+.first-section {
+	padding-top: 7rem;
+}

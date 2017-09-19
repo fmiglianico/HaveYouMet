@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 
 import FacebookReducer from './FacebookReducer';
-import RegisterReducer from './RegisterReducer';
+import ProfileReducer from './ProfileReducer';
 
 const rootReducer = combineReducers(
 	{
 		facebook: FacebookReducer,
-		register: RegisterReducer
+		profile: ProfileReducer
 	}
 );
 

@@ -21,5 +21,6 @@ export let FACEBOOK_CHECK_STATUS = fetchingStates('FACEBOOK_CHECK_STATUS');
 export let FACEBOOK_RETRIEVE_PERSONAL_INFO = fetchingStates('FACEBOOK_RETRIEVE_PERSONAL_INFO');
 
 export const REGISTER = fetchingStates('REGISTER');
+export const GET_PROFILE = fetchingStates('GET_PROFILE');
 
 

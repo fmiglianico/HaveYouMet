@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import RegisterActionCreator from '../actions/RegisterActionCreator';
+import RegisterActionCreator from '../actions/ProfileActionCreator';
 import FacebookActionCreator from '../actions/FacebookActionCreator';
 import store from '../stores/Store';
 import RegisterAsFriend from './RegisterAsFriend'
@@ -50,10 +51,21 @@ class Register extends Component {
 
 	render() {
 
+		if (this.props.register.saved) {
+			return (
+				<section id="registration-done" className="first-section col-md-12 text-center">
+					<h1>Thank you for registering !</h1>
+					<p>
+						Continue to <Link to="/">Home</Link>
+					</p>
+				</section>
+			)
+		}
+
 		const registerButtonClass = this.state.type ? '' : 'hidden';
 
 		return (
-			<section id="register" className="blog">
+			<section id="register" className="first-section">
 
 				<div className="container">
 					<div className="row col-md-6 col-md-push-3 form">
@@ -152,7 +164,9 @@ const mapStateToProps = (state) => {
 	return {
 		facebookAuth: state.facebook.facebookAuth,
 		facebookPicture: state.facebook.facebookPicture,
-		facebookProfile: state.facebook.facebookProfile
+		facebookProfile: state.facebook.facebookProfile,
+		profile: state.profile.profile,
+		register: state.profile.register
 	};
 };
 

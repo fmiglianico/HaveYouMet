@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import FacebookLogin from '../FacebookLogin';
 import FacebookPicture from '../FacebookPicture';
@@ -11,7 +12,8 @@ class Navbar extends Component {
 		super(props);
 		this.state = {
 			facebookAuth: props.facebookAuth,
-			facebookPicture: props.facebookPicture
+			facebookPicture: props.facebookPicture,
+			profile: props.profile
 		}
 	}
 
@@ -35,7 +37,7 @@ class Navbar extends Component {
 
 								<li><a href="#" className="anchor">Home</a></li>
 								<li className="dropdown megamenu vos">
-									<a className="dropdown-toggle">Elements<i className="ion-ios-arrow-down"></i></a>
+									<a className="dropdown-toggle">Elements<i className="ion-ios-arrow-down"/></a>
 									<ul className="dropdown-menu fullwidth">
 										<li className="megamenu-content withdesc">
 											<div className="col-md-3 mg-col">
@@ -55,13 +57,18 @@ class Navbar extends Component {
 								</li>
 								<li><a href="#" className="anchor">Contact</a></li>
 
-								<li className="nav-separator"></li>
+								<li className="nav-separator"/>
 
 								<li className="dropdown myprofilemenu">
 									<a className="dropdown-toggle">
 										<div className="fb-login">
-											{!this.props.facebookAuth.fetched ? <FacebookLogin /> :
-												<FacebookPicture facebookPictureUrl={this.props.facebookPicture.data} /> }
+											{!this.props.facebookAuth.fetched || this.props.profile.error ?
+												<FacebookLogin /> :
+												(this.props.profile.data ?
+													<FacebookPicture facebookPictureUrl={this.props.facebookPicture.data} /> :
+													<Redirect to="/register"/>
+												)
+											}
 										</div>
 									</a>
 									{this.props.facebookAuth.fetched && this.props.facebookPicture.fetched ? (
@@ -91,7 +98,8 @@ class Navbar extends Component {
 const mapStateToProps = (state) => {
 	return {
 		facebookAuth: state.facebook.facebookAuth,
-		facebookPicture: state.facebook.facebookPicture
+		facebookPicture: state.facebook.facebookPicture,
+		profile: state.profile.profile
 	};
 };
 

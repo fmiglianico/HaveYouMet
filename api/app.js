@@ -61,7 +61,7 @@ api.use(neo4jSessionCleanup);
 //api routes
 api.post('/profile', routes.profiles.createProfile);
 api.get('/profile', routes.profiles.list);
-api.get('/profile/:id', routes.profiles.findById);
+api.get('/profile/:facebookId', routes.profiles.findByFacebookId);
 api.post('/page', routes.pages.createPage);
 api.get('/pages', routes.pages.list);
 

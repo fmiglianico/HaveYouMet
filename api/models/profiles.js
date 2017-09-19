@@ -7,12 +7,12 @@ let _singleProfileWithLikes = function (record) {
 		let result = {};
 		_.extend(result, new Profile(record.get('profile')));
 		// mappings are temporary until the neo4j driver team decides what to do about numbers
-		result.likes = _.map(record.get('likes'), page => {
+		/*result.likes = _.map(record.get('likes'), page => {
 			if (page.id) {
 				page.id = page.id.toNumber();
 			}
 			return page;
-		});
+		});*/
 		return result;
 	}
 	else {
@@ -46,6 +46,25 @@ let getById = function (session, id) {
 		});
 };
 
+// get a single person by facebookId
+let getByFacebookId = function (session, facebookId) {
+	let query = [
+		'MATCH (profile:Profile {facebookId:{facebookId}})',
+		'RETURN DISTINCT profile'
+	].join('\n');
+
+	return session
+		.run(query, {facebookId: facebookId})
+		.then(result => {
+			if (!_.isEmpty(result.records)) {
+				return _singleProfileWithLikes(result.records[0]);
+			}
+			else {
+				throw {message: 'Profile not found', status: 404}
+			}
+		});
+};
+
 // Get all profiles
 let getAll = function (session) {
 	return session.run('MATCH (profile:Profile) RETURN profile')
@@ -66,6 +85,6 @@ let createProfile = function (session, profile, likes) {
 
 module.exports = {
 	getAll: getAll,
-	getById: getById,
+	getByFacebookId: getByFacebookId,
 	createProfile: createProfile
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import Navbar from './components/home/Navbar';
 import Hero from './components/home/Hero';
@@ -41,16 +42,23 @@ class App extends Component {
 						<Contact/>
 					</div>
 				)} />
+				<Route path="/" render={() => (
+					<section id="404" className="first-section col-md-12 text-center">
+						<h1><strong>Error 404</strong></h1>
+						<p className="lead">Page not found</p>
+					</section>
+				)} />
 				<Footer/>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = (state) => {
 	return {
-		loggedIn: store.facebook.facebookAuthData
+		facebookAuth: state.facebook.facebookAuth,
+		profile: state.profile
 	};
 };
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));
