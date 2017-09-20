@@ -13,6 +13,7 @@ import Contact from './components/home/Contact';
 import Footer from './components/home/Footer';
 import Register from './components/Register';
 import ErrorPage from './components/ErrorPage';
+import DefaultDataCreator from './scripts/DefaultDataCreator';
 
 import store from './stores/Store'
 import FacebookActionCreator from './actions/FacebookActionCreator';
@@ -21,7 +22,7 @@ import './App.css';
 
 
 const APP_ID = '1110690499060538';
-const APP_VERSION = 'v2.5';
+const APP_VERSION = 'v2.8';
 
 class App extends Component {
 	componentWillMount() {
@@ -51,6 +52,8 @@ class App extends Component {
 							<Contact/>
 						</div>
 					)} />
+
+					<Route path="/generate_users" exact={true} component={DefaultDataCreator} />
 					<Route render={() => (
 						<ErrorPage code="404" message="Page not found"/>
 					)} />
