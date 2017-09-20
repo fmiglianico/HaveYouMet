@@ -16,6 +16,13 @@ const ProfileActionCreators = {
 			type: Constants.GET_PROFILE(),
 			payload: axios.get('http://localhost:3000/api/v0/profile/' + facebookId)
 		}
+	},
+
+	getAll: function () {
+		return {
+			type: Constants.GET_ALL_PROFILE(),
+			payload: axios.get('http://localhost:3000/api/v0/profile')
+		}
 	}
 };
 

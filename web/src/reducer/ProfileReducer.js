@@ -66,6 +66,39 @@ function getProfile(profileState, action) {
 	}
 };
 
+function getAllProfile(profileState, action) {
+	switch (action.type) {
+		case Constants.GET_ALL_PROFILE(Constants.PENDING):
+			return {
+				...profileState,
+				profiles: {
+					fetching: true
+				}
+			};
+		case Constants.GET_ALL_PROFILE(Constants.FULFILLED):
+			return {
+				...profileState,
+				profiles: {
+					fetching: false,
+					fetched: true,
+					data: action.payload.data
+				}
+			};
+		case Constants.GET_ALL_PROFILE(Constants.REJECTED):
+			return {
+				...profileState,
+				profiles: {
+					fetching: false,
+					fetched: false,
+					error: action.payload
+				}
+			};
+
+		default:
+			return profileState
+	}
+};
+
 const initialProfileState = {
 	register: {
 		saving: false,
@@ -74,6 +107,12 @@ const initialProfileState = {
 		error: null
 	},
 	profile: {
+		fetching: false,
+		fetched: false,
+		data: null,
+		error: null
+	},
+	profiles: {
 		fetching: false,
 		fetched: false,
 		data: null,
@@ -93,6 +132,11 @@ const ProfileReducer = (profileState = initialProfileState, action) => {
 		case Constants.GET_PROFILE(Constants.FULFILLED):
 		case Constants.GET_PROFILE(Constants.REJECTED):
 			return getProfile(profileState, action);
+
+		case Constants.GET_ALL_PROFILE(Constants.PENDING):
+		case Constants.GET_ALL_PROFILE(Constants.FULFILLED):
+		case Constants.GET_ALL_PROFILE(Constants.REJECTED):
+			return getAllProfile(profileState, action);
 
 		default:
 			return profileState;

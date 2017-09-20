@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import FacebookActionCreator from '../actions/FacebookActionCreator';
 import store from '../stores/Store';
 
-class FacebookPicture extends React.Component {
+class FacebookPicture extends Component {
 
 	constructor(props) {
 		super(props);

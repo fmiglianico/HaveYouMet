@@ -28,7 +28,7 @@ function _manyProfiles(neo4jResult) {
 // get a single person by id
 let getById = function (session, id) {
 	let query = [
-		'MATCH (profile:Profile {id:{id}})',
+		'MATCH (profile:ProfileThumbnail {id:{id}})',
 		'OPTIONAL MATCH (profile)-[:LIKES]->(page:Page)',
 		'RETURN DISTINCT person,',
 		'collect(DISTINCT { name:page.title, id:page.id}) AS likes,'
@@ -41,7 +41,7 @@ let getById = function (session, id) {
 				return _singleProfileWithLikes(result.records[0]);
 			}
 			else {
-				throw {message: 'Profile not found', status: 404}
+				throw {message: 'ProfileThumbnail not found', status: 404}
 			}
 		});
 };
@@ -49,7 +49,7 @@ let getById = function (session, id) {
 // get a single person by facebookId
 let getByFacebookId = function (session, facebookId) {
 	let query = [
-		'MATCH (profile:Profile {facebookId:{facebookId}})',
+		'MATCH (profile:ProfileThumbnail {facebookId:{facebookId}})',
 		'RETURN DISTINCT profile'
 	].join('\n');
 
@@ -60,7 +60,7 @@ let getByFacebookId = function (session, facebookId) {
 				return _singleProfileWithLikes(result.records[0]);
 			}
 			else {
-				throw {message: 'Profile not found', status: 404}
+				throw {message: 'ProfileThumbnail not found', status: 404}
 			}
 		});
 };

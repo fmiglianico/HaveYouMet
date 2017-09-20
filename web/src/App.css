@@ -95,3 +95,80 @@
 .first-section {
 	padding-top: 7rem;
 }
+
+.profile-picture-wrapper {
+	height: 200px;
+	margin: 15px 0;
+	overflow: hidden;
+}
+
+.profile-picture {
+	background-size:cover;
+	background-position: center;
+	width: 100%;
+	height: 100%;
+}
+
+.profile:hover .profile-picture-wrapper .profile-picture {
+	transform: scale(1.1);
+	transition: all .3s;
+
+}
+
+.profile-description {
+	height: 170px;
+}
+
+.profile-buttons {
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.profile {
+	text-transform: capitalize;
+}
+
+.profile:hover {
+	background-color: rgba(65, 65, 65, 0.2);
+}
+
+.profile-list {
+	padding: 80px 100px;
+}
+
+.profile-list .arrow-left,
+.profile-list .arrow-right
+{
+	font-size: 10rem;
+	color: #bbbbbb;
+	position: absolute;
+	top: 50%;
+}
+
+.profile-list .arrow-left:hover,
+.profile-list .arrow-right:hover
+{
+	cursor: pointer;
+}
+
+.profile-list .arrow-left.disabled,
+.profile-list .arrow-right.disabled
+{
+	color: #dddddd;
+}
+
+.profile-list .arrow-left.disabled:hover,
+.profile-list .arrow-right.disabled:hover
+{
+	cursor: auto;
+}
+
+.profile-list .arrow-left
+{
+	left: 10px;
+}
+
+.profile-list .arrow-right
+{
+	right: 10px;
+}

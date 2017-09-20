@@ -13,9 +13,11 @@ import Contact from './components/home/Contact';
 import Footer from './components/home/Footer';
 import Register from './components/Register';
 import ErrorPage from './components/ErrorPage';
+import ProfileBrowser from './components/profile/ProfileBrowser';
+
 import DefaultDataCreator from './scripts/DefaultDataCreator';
 
-import store from './stores/Store'
+import store from './stores/Store';
 import FacebookActionCreator from './actions/FacebookActionCreator';
 
 import './App.css';
@@ -42,6 +44,7 @@ class App extends Component {
 				<Navbar/>
 				<Switch>
 					<Route path="/register" exact={true} component={Register}/>
+					<Route path="/dashboard" component={ProfileBrowser}/>
 					<Route path="/" exact={true} render={() => (
 						<div>
 							<Hero/>

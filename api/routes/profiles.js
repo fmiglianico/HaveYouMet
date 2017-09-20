@@ -6,7 +6,7 @@ var Profiles = require('../models/profiles')
 /**
  * @swagger
  * definition:
- *   Profile:
+ *   ProfileThumbnail:
  *     type: object
  *     properties:
  *       id:
@@ -29,7 +29,7 @@ var Profiles = require('../models/profiles')
  *         schema:
  *           type: array
  *           items:
- *             $ref: '#/definitions/Profile'
+ *             $ref: '#/definitions/ProfileThumbnail'
  */
 exports.list = function (req, res, next) {
   Profiles.getAll(dbUtils.getSession(req))
@@ -57,11 +57,11 @@ exports.list = function (req, res, next) {
  *       200:
  *         description: A profile
  *         schema:
- *           $ref: '#/definitions/Profile'
+ *           $ref: '#/definitions/ProfileThumbnail'
  *       400:
  *         description: Error message(s)
  *       404:
- *         description: Profile not found
+ *         description: ProfileThumbnail not found
  */
 exports.findByFacebookId = function (req, res, next) {
 	const facebookId = req.params.facebookId;
@@ -95,7 +95,7 @@ exports.findByFacebookId = function (req, res, next) {
  *       201:
  *         description: Your new profile
  *         schema:
- *           $ref: '#/definitions/Profile'
+ *           $ref: '#/definitions/ProfileThumbnail'
  *       400:
  *         description: Error message(s)
  */
