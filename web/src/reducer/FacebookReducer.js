@@ -109,7 +109,7 @@ function checkStatus(facebookState, action) {
 					...facebookState,
 					facebookCheckStatus: {
 						fetching: false,
-						fetched: true,
+						fetched: true
 					},
 					facebookAuth: {
 						fetching: false,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -12,9 +12,10 @@ import Callout from './components/home/Callout';
 import Contact from './components/home/Contact';
 import Footer from './components/home/Footer';
 import Register from './components/Register';
+import ErrorPage from './components/ErrorPage';
 
 import store from './stores/Store'
-import FacebookActionCreators from './actions/FacebookActionCreator';
+import FacebookActionCreator from './actions/FacebookActionCreator';
 
 import './App.css';
 
@@ -24,30 +25,36 @@ const APP_VERSION = 'v2.5';
 
 class App extends Component {
 	componentWillMount() {
-		store.dispatch(FacebookActionCreators.loadSDK(APP_ID, APP_VERSION));
+		store.dispatch(FacebookActionCreator.loadSDK(APP_ID, APP_VERSION));
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.facebookSDKFetched && !nextProps.facebookAuth.fetched
+			&& !nextProps.facebookAuth.error && !nextProps.facebookAuth.fetching) {
+			store.dispatch(FacebookActionCreator.checkStatus());
+		}
 	}
 
 	render() {
 		return (
 			<div>
 				<Navbar/>
-				<Route path="/register" exact={true} component={Register}/>
-				<Route path="/" exact={true} render={() => (
-					<div>
-						<Hero/>
-						<About/>
-						<Quotes/>
-						<Facts/>
-						<Callout/>
-						<Contact/>
-					</div>
-				)} />
-				<Route path="/" render={() => (
-					<section id="404" className="first-section col-md-12 text-center">
-						<h1><strong>Error 404</strong></h1>
-						<p className="lead">Page not found</p>
-					</section>
-				)} />
+				<Switch>
+					<Route path="/register" exact={true} component={Register}/>
+					<Route path="/" exact={true} render={() => (
+						<div>
+							<Hero/>
+							<About/>
+							<Quotes/>
+							<Facts/>
+							<Callout/>
+							<Contact/>
+						</div>
+					)} />
+					<Route render={() => (
+						<ErrorPage code="404" message="Page not found"/>
+					)} />
+				</Switch>
 				<Footer/>
 			</div>
 		);
@@ -56,6 +63,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
 	return {
+		facebookSDKFetched: state.facebook.facebookSDK.fetched,
 		facebookAuth: state.facebook.facebookAuth,
 		profile: state.profile
 	};

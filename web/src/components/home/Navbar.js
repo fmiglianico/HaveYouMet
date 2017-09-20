@@ -6,6 +6,9 @@ import FacebookLogin from '../FacebookLogin';
 import FacebookPicture from '../FacebookPicture';
 import FacebookLogout from "../FacebookLogout";
 
+import ProfileActionCreator from '../../actions/ProfileActionCreator';
+import store from '../../stores/Store';
+
 class Navbar extends Component {
 
 	constructor(props) {
@@ -14,6 +17,13 @@ class Navbar extends Component {
 			facebookAuth: props.facebookAuth,
 			facebookPicture: props.facebookPicture,
 			profile: props.profile
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (!nextProps.profile.fetched && !nextProps.profile.fetching && !nextProps.profile.error
+			&& nextProps.facebookAuth.fetched) {
+			store.dispatch(ProfileActionCreator.getProfile(nextProps.facebookAuth.data.userID));
 		}
 	}
 
@@ -62,16 +72,16 @@ class Navbar extends Component {
 								<li className="dropdown myprofilemenu">
 									<a className="dropdown-toggle">
 										<div className="fb-login">
-											{!this.props.facebookAuth.fetched || this.props.profile.error ?
+											{!this.props.facebookAuth.fetched || this.props.profile.fetching ?
 												<FacebookLogin /> :
-												(this.props.profile.data ?
-													<FacebookPicture facebookPictureUrl={this.props.facebookPicture.data} /> :
-													<Redirect to="/register"/>
+												(this.props.profile.error ?
+													<Redirect to="/register"/> :
+													<FacebookPicture facebookPictureUrl={this.props.facebookPicture.data} />
 												)
 											}
 										</div>
 									</a>
-									{this.props.facebookAuth.fetched && this.props.facebookPicture.fetched ? (
+									{this.props.profile.fetched ? (
 										<ul className="dropdown-menu fullwidth">
 											<li className="myprofilemenu-content withdesc">
 												<div className="col-md-3 mg-col">
