@@ -1,17 +1,17 @@
 import * as Constants from '../constants/Constants';
 
-function register(registerState, action) {
+function register(profileState, action) {
 	switch (action.type) {
 		case Constants.REGISTER(Constants.PENDING):
 			return {
-				...registerState,
+				...profileState,
 				register: {
 					saving: true
 				}
 			};
 		case Constants.REGISTER(Constants.FULFILLED):
 			return {
-				...registerState,
+				...profileState,
 				register: {
 					saving: false,
 					saved: true,
@@ -20,7 +20,7 @@ function register(registerState, action) {
 			};
 		case Constants.REGISTER(Constants.REJECTED):
 			return {
-				...registerState,
+				...profileState,
 				register: {
 					saving: false,
 					saved: false,
@@ -29,9 +29,9 @@ function register(registerState, action) {
 			};
 
 		default:
-			return registerState
+			return profileState
 	}
-};
+}
 
 function getProfile(profileState, action) {
 	switch (action.type) {
@@ -64,7 +64,7 @@ function getProfile(profileState, action) {
 		default:
 			return profileState
 	}
-};
+}
 
 function getAllProfile(profileState, action) {
 	switch (action.type) {
@@ -97,7 +97,25 @@ function getAllProfile(profileState, action) {
 		default:
 			return profileState
 	}
-};
+}
+
+function logout(profileState, action) {
+	switch (action.type) {
+		case Constants.FACEBOOK_LOG_OUT(Constants.FULFILLED):
+			return {
+				...profileState,
+				profile: {
+					fetching: false,
+					fetched: false,
+					data: null,
+					error: null
+				}
+			};
+
+		default:
+			return profileState
+	}
+}
 
 const initialProfileState = {
 	register: {
@@ -137,6 +155,9 @@ const ProfileReducer = (profileState = initialProfileState, action) => {
 		case Constants.GET_ALL_PROFILE(Constants.FULFILLED):
 		case Constants.GET_ALL_PROFILE(Constants.REJECTED):
 			return getAllProfile(profileState, action);
+
+		case Constants.FACEBOOK_LOG_OUT(Constants.FULFILLED):
+			return logout(profileState, action);
 
 		default:
 			return profileState;

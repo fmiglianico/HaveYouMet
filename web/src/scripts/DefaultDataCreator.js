@@ -353,7 +353,7 @@ class DefaultDataCreator extends Component {
 				gender: p.gender,
 				interestedIn: p.gender === 'male' ? 'female' : 'male',
 				type: 'single',
-				birthday: p.dob,
+				birthday: this.getDOB(p.dob),
 				location: p.location.city,
 				nationality: p.nat,
 				pictureThumbnail: p.picture.thumbnail,
@@ -373,6 +373,11 @@ class DefaultDataCreator extends Component {
 			loading: false,
 			loaded: true
 		});
+	}
+
+	getDOB(dob) {
+		const dobArray = dob.substr(0,10).split('-');
+		return dobArray[1] + '/' + dobArray[2] + '/' + dobArray[0];
 	}
 }
 

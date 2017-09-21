@@ -28,7 +28,7 @@ function _manyProfiles(neo4jResult) {
 // get a single person by id
 let getById = function (session, id) {
 	let query = [
-		'MATCH (profile:ProfileThumbnail {id:{id}})',
+		'MATCH (profile:Profile {id:{id}})',
 		'OPTIONAL MATCH (profile)-[:LIKES]->(page:Page)',
 		'RETURN DISTINCT person,',
 		'collect(DISTINCT { name:page.title, id:page.id}) AS likes,'
@@ -49,7 +49,7 @@ let getById = function (session, id) {
 // get a single person by facebookId
 let getByFacebookId = function (session, facebookId) {
 	let query = [
-		'MATCH (profile:ProfileThumbnail {facebookId:{facebookId}})',
+		'MATCH (profile:Profile {facebookId:{facebookId}})',
 		'RETURN DISTINCT profile'
 	].join('\n');
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import FacebookLogin from '../FacebookLogin';
 import FacebookPicture from '../FacebookPicture';
@@ -45,28 +45,12 @@ class Navbar extends Component {
 						<div className="container">
 							<ul className="nav navbar-nav menu-right">
 
-								<li><a href="#" className="anchor">Home</a></li>
-								<li className="dropdown megamenu vos">
-									<a className="dropdown-toggle">Elements<i className="ion-ios-arrow-down"/></a>
-									<ul className="dropdown-menu fullwidth">
-										<li className="megamenu-content withdesc">
-											<div className="col-md-3 mg-col">
-												<ul>
-													<li><a href="#">Accordion</a></li>
-													<li><a href="#">Buttons</a></li>
-												</ul>
-											</div>
-											<div className="col-md-3 mg-col">
-												<ul>
-													<li><a href="#">Tabs</a></li>
-													<li><a href="#">Progress Circles</a></li>
-												</ul>
-											</div>
-										</li>
-									</ul>
-								</li>
-								<li><a href="#" className="anchor">Contact</a></li>
-
+								<li><Link to="/">Home</Link></li>
+								{
+									this.props.profile.fetched ?
+										<li><Link to="/dashboard">Dashboard</Link></li> :
+										null
+								}
 								<li className="nav-separator"/>
 
 								<li className="dropdown myprofilemenu">

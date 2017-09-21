@@ -32,8 +32,7 @@ class App extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.facebookSDKFetched && !nextProps.facebookAuth.fetched
-			&& !nextProps.facebookAuth.error && !nextProps.facebookAuth.fetching) {
+		if (!this.props.facebookSDKFetched && nextProps.facebookSDKFetched) {
 			store.dispatch(FacebookActionCreator.checkStatus());
 		}
 	}
