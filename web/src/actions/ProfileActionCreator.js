@@ -7,21 +7,21 @@ const ProfileActionCreators = {
 	register: function (profile) {
 		return {
 			type: Constants.REGISTER(),
-			payload: axios.post('http://localhost:3000/api/v0/profile', {profile})
+			payload: axios.post('/api/v0/profile', {profile})
 		}
 	},
 
 	getProfile: function (facebookId) {
 		return {
 			type: Constants.GET_PROFILE(),
-			payload: axios.get('http://localhost:3000/api/v0/profile/' + facebookId)
+			payload: axios.get('/api/v0/profile/' + facebookId)
 		}
 	},
 
 	getAll: function () {
 		return {
 			type: Constants.GET_ALL_PROFILE(),
-			payload: axios.get('http://localhost:3000/api/v0/profile')
+			payload: axios.get('/api/v0/profile')
 		}
 	}
 };
