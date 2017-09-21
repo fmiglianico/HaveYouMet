@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
 class Callout extends Component {
 
@@ -13,10 +14,13 @@ class Callout extends Component {
 
 						<div className="col-md-12 text-center">
 							<h2>Ready to <span className="bold">Help</span> Your Single Friends ?</h2>
-							<p className="lead">Use <span className="bold">HaveYouMet</span> to bring some more <span className="color">Happiness</span> into their lives</p>
-							<a href="#" target="_blank" className="btn btn-md btn-primary btn-appear mt30">
-								<span>Start Now <i className="ion-checkmark"></i></span>
-							</a>
+							<p className="lead">
+								Use <span className="bold">HaveYouMet</span> to bring some more
+								<span className="color">Happiness</span> into their lives
+							</p>
+							<Link to="/register" className="btn btn-lg btn-primary btn-scroll">
+								<span>Start Now <i className="ion-checkmark"/></span>
+							</Link>
 						</div>
 
 					</div>

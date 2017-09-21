@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
 class Hero extends Component {
 
@@ -16,13 +17,13 @@ class Hero extends Component {
 							<div>
 								<h1>Haaave you met ...<br/><strong>... My friend ?</strong></h1>
 								<p className="lead">We all have single friends -- Find the perfect match for them.</p>
-								<a href="#about" className="btn btn-lg btn-primary btn-scroll">Start creating <i className="ion-heart"></i></a>
+								<Link to="/register" className="btn btn-lg btn-primary btn-scroll">Start creating <i className="ion-heart"/></Link>
 							</div>
 
 							<div>
 								<h1>Haaave you met ...<br/><strong>... My friend ?</strong></h1>
 								<p className="lead">We all have single friends -- Find the perfect match for them.</p>
-								<a href="#about" className="btn btn-lg btn-primary btn-scroll">Start sending <i className="ion-heart"></i></a>
+								<Link to="/register" className="btn btn-lg btn-primary btn-scroll">Start creating <i className="ion-heart"/></Link>
 							</div>
 
 						</div>
