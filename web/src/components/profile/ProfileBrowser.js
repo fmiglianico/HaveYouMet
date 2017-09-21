@@ -25,7 +25,6 @@ class ProfileBrowser extends Component {
 
     componentWillReceiveProps(nextProps) {
 		if (nextProps.profiles.fetched) {
-			console.info(nextProps.profiles.data.length);
 			this.setState({
 				total: nextProps.profiles.data.length
 			})
@@ -38,7 +37,7 @@ class ProfileBrowser extends Component {
     			return index >= this.state.currentPage*this.state.profilePerPage
 					&& index < (this.state.currentPage+1)*this.state.profilePerPage;
 			}).map(profile => {
-				return (<div className="profile col-lg-2 col-md-4 col-sm-6 col-xs-12" key={profile.id}>
+				return (<div className="profile col-lg-2 col-sm-3 col-xs-4" key={profile.id}>
 					<ProfileThumbnail profile={profile} />
 				</div>);
 			});

@@ -1,15 +1,29 @@
 // extracts just the data from the query results
 
-var _ = require('lodash');
+const _ = require('lodash');
 
-var Profile = function (_node) {
+const getAgeFromDOB = function(dob) {
+
+	const birthdayDate = new Date(dob);
+	const now = new Date();
+
+	let age = now.getFullYear() - birthdayDate.getFullYear() - 1;
+
+	if (now.getMonth() > birthdayDate.getMonth()) {
+		age++;
+	} else if (now.getMonth() === birthdayDate.getMonth()
+		&& now.getDay() >= birthdayDate.getDay()) {
+		age++;
+	}
+	return age;
+};
+
+const Profile = function (_node) {
     _.extend(this, _node.properties);
 
-    if (this.id) {
-        this.id = this.id;
-    }
-    if (this.born) {
-        this.born = this.born.toNumber();
+    if (this.birthday) {
+    	_.assign(this, {age: getAgeFromDOB(this.birthday)});
+    	delete this.birthday;
     }
 };
 

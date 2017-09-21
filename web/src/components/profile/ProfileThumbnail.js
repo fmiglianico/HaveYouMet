@@ -11,7 +11,7 @@ class ProfileThumbnail extends Component {
 
 				<div className="profile-description">
 					<h3><strong>{this.props.profile.name}</strong></h3>
-					<h4>{this.props.profile.gender} - Birthday : {this.props.profile.birthday}</h4>
+					<h4>{this.props.profile.gender} - <strong>{this.props.profile.age}</strong></h4>
 					<h5>City : {this.props.profile.location}</h5>
 				</div>
 
