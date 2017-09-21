@@ -66,19 +66,28 @@ const getByFacebookId = function (session, facebookId) {
 };
 
 // Get all profiles
-const getAll = function (session, gender, ageMin, ageMax) {
+const getAll = function (session, type, gender, ageMin, ageMax) {
 	const now = new Date();
-	const birthdayMin = new Date();
-	birthdayMin.setYear(now.getYear() - ageMin);
-	const birthdayMax = new Date();
-	birthdayMax.setYear(now.getYear() - ageMax + 1);
-	return session.run('MATCH (profile:Profile) WHERE profile.gender = {gender} ' +
-		'AND profile.birthday > {birthdayMax} ' +
-		'AND profile.birthday <= {birthdayMin} ' +
+	let birthdayMin = null;
+	if (ageMin) {
+		birthdayMin = new Date();
+		birthdayMin.setYear(now.getYear() - ageMin);
+	}
+	let birthdayMax = null;
+	if (ageMax) {
+		birthdayMax = new Date();
+		birthdayMax.setYear(now.getYear() - ageMax + 1);
+	}
+	return session.run('MATCH (profile:Profile) ' +
+		(type ? 'WHERE profile.type = {type} ' : '') +
+		(gender ? 'AND profile.gender = {gender} ' : '') +
+		(birthdayMax ? 'AND profile.birthday > {birthdayMax} ' : '') +
+		(birthdayMin ? 'AND profile.birthday <= {birthdayMin} ' : '') +
 		'RETURN profile', {
+				type,
 				gender,
-				birthdayMin:birthdayMin.toISOString().substr(0, 10),
-				birthdayMax:birthdayMax.toISOString().substr(0, 10)
+				birthdayMin: (birthdayMin ? birthdayMin.toISOString().substr(0, 10) : null),
+				birthdayMax: (birthdayMax ? birthdayMax.toISOString().substr(0, 10) : null)
 			})
 		.then(result => _manyProfiles(result));
 };

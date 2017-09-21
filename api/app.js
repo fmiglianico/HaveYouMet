@@ -64,6 +64,7 @@ api.get('/profile', routes.profiles.list);
 api.get('/profile/:facebookId', routes.profiles.findByFacebookId);
 api.post('/page', routes.pages.createPage);
 api.get('/pages', routes.pages.list);
+api.post('/ishelpedby', routes.isHelpedBys.createRelation);
 
 //api error handler
 api.use(function(err, req, res, next) {

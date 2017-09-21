@@ -29,6 +29,7 @@ class ProfileBrowser extends Component {
 			})
 		} else if (nextProps.profile.fetched && !nextProps.profiles.fetching && !nextProps.profiles.error) {
 			store.dispatch(ProfileActionCreator.getAll(
+				'single',
 				nextProps.profile.data.interestedIn,
 				nextProps.profile.data.ageMin,
 				nextProps.profile.data.ageMax

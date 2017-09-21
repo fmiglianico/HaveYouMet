@@ -24,4 +24,6 @@ export const REGISTER = fetchingStates('REGISTER');
 export const GET_PROFILE = fetchingStates('GET_PROFILE');
 export const GET_ALL_PROFILE = fetchingStates('GET_ALL_PROFILE');
 
+export const LINK_FRIEND = fetchingStates('LINK_FRIEND');
+
 

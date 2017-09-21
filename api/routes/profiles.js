@@ -33,11 +33,12 @@ var Profiles = require('../models/profiles')
  */
 exports.list = function (req, res, next) {
 
+	const type = _.get(req.query, 'type');
 	const gender = _.get(req.query, 'gender');
 	const ageMin = _.get(req.query, 'ageMin');
 	const ageMax = _.get(req.query, 'ageMax');
 
-	Profiles.getAll(dbUtils.getSession(req), gender, ageMin, ageMax)
+	Profiles.getAll(dbUtils.getSession(req), type, gender, ageMin, ageMax)
 		.then(response => writeResponse(res, response))
 		.catch(next);
 };

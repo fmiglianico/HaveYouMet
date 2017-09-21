@@ -18,15 +18,26 @@ const ProfileActionCreators = {
 		}
 	},
 
-	getAll: function (gender, ageMin, ageMax) {
+	getAll: function (type, gender, ageMin, ageMax) {
 		return {
 			type: Constants.GET_ALL_PROFILE(),
 			payload: axios.get('/api/v0/profile', {
 				params: {
+					type,
 					gender,
 					ageMin,
 					ageMax
 				}
+			})
+		}
+	},
+
+	linkFriend: function (singleId, friendId) {
+		return {
+			type: Constants.LINK_FRIEND(),
+			payload: axios.post('/api/v0/ishelpedby', {
+				singleId,
+				friendId
 			})
 		}
 	}
