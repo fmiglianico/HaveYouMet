@@ -20,7 +20,6 @@ class ProfileBrowser extends Component {
 	}
 
     componentWillMount() {
-		store.dispatch(ProfileActionCreator.getAll());
     }
 
     componentWillReceiveProps(nextProps) {
@@ -28,6 +27,12 @@ class ProfileBrowser extends Component {
 			this.setState({
 				total: nextProps.profiles.data.length
 			})
+		} else if (nextProps.profile.fetched && !nextProps.profiles.fetching && !nextProps.profiles.error) {
+			store.dispatch(ProfileActionCreator.getAll(
+				nextProps.profile.data.interestedIn,
+				nextProps.profile.data.ageMin,
+				nextProps.profile.data.ageMax
+			));
 		}
 	}
 
@@ -76,6 +81,7 @@ class ProfileBrowser extends Component {
 const mapStateToProps = (state) => {
 	return {
 		facebookAuth: state.facebook.facebookAuth,
+		profile: state.profile.profile,
 		profiles: state.profile.profiles
 	};
 };

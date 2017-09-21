@@ -18,10 +18,16 @@ const ProfileActionCreators = {
 		}
 	},
 
-	getAll: function () {
+	getAll: function (gender, ageMin, ageMax) {
 		return {
 			type: Constants.GET_ALL_PROFILE(),
-			payload: axios.get('/api/v0/profile')
+			payload: axios.get('/api/v0/profile', {
+				params: {
+					gender,
+					ageMin,
+					ageMax
+				}
+			})
 		}
 	}
 };

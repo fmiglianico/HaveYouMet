@@ -1,7 +1,7 @@
 var Profiles = require('../models/profiles')
-  , _ = require('lodash')
-  , writeResponse = require('../helpers/response').writeResponse
-  , dbUtils = require('../neo4j/dbUtils');
+	, _ = require('lodash')
+	, writeResponse = require('../helpers/response').writeResponse
+	, dbUtils = require('../neo4j/dbUtils');
 
 /**
  * @swagger
@@ -32,9 +32,14 @@ var Profiles = require('../models/profiles')
  *             $ref: '#/definitions/Profile'
  */
 exports.list = function (req, res, next) {
-  Profiles.getAll(dbUtils.getSession(req))
-    .then(response => writeResponse(res, response))
-    .catch(next);
+
+	const gender = _.get(req.query, 'gender');
+	const ageMin = _.get(req.query, 'ageMin');
+	const ageMax = _.get(req.query, 'ageMax');
+
+	Profiles.getAll(dbUtils.getSession(req), gender, ageMin, ageMax)
+		.then(response => writeResponse(res, response))
+		.catch(next);
 };
 
 /**
@@ -100,8 +105,8 @@ exports.findByFacebookId = function (req, res, next) {
  *         description: Error message(s)
  */
 exports.createProfile = function (req, res, next) {
-	var profile = _.get(req.body, 'profile');
-	var likes = _.get(req.body, 'likes');
+	const profile = _.get(req.body, 'profile');
+	const likes = _.get(req.body, 'likes');
 
 	Profiles.createProfile(dbUtils.getSession(req), profile, likes)
 		.then(response => writeResponse(res, response, 201))

@@ -48,7 +48,7 @@ function getProfile(profileState, action) {
 				profile: {
 					fetching: false,
 					fetched: true,
-					data: action.payload
+					data: action.payload.data
 				}
 			};
 		case Constants.GET_PROFILE(Constants.REJECTED):

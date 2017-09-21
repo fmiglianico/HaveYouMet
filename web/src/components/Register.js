@@ -16,6 +16,8 @@ class Register extends Component {
 			name: '',
 			gender: 'male',
 			interestedIn: 'female',
+			ageMin: '',
+			ageMax: '',
 			type: '',
 			birthday: '',
 			location: '',
@@ -30,6 +32,8 @@ class Register extends Component {
 		this.handleGenderChange = this.handleGenderChange.bind(this);
 		this.handleInterestedInChange = this.handleInterestedInChange.bind(this);
 		this.handleBirthdayChange = this.handleBirthdayChange.bind(this);
+		this.handleAgeMinChange = this.handleAgeMinChange.bind(this);
+		this.handleAgeMaxChange = this.handleAgeMaxChange.bind(this);
 		this.handleLocationChange = this.handleLocationChange.bind(this);
 	}
 
@@ -42,11 +46,24 @@ class Register extends Component {
 				name: nextProps.facebookProfile.data.first_name,
 				gender: nextProps.facebookProfile.data.gender,
 				interestedIn: nextProps.facebookProfile.data.gender === 'male' ? 'female' : 'male',
-				birthday: nextProps.facebookProfile.data.birthday,
+				birthday: this.getFormattedFacebookBirthday(nextProps.facebookProfile.data.birthday),
 				location: nextProps.facebookProfile.data.location.name,
 				facebookId: nextProps.facebookAuth.data.userID
 			});
 		}
+	}
+
+	getFormattedFacebookBirthday(facebookBirthday) {
+		if (facebookBirthday.length === 4) {
+			return facebookBirthday + '0101';
+		} else if (facebookBirthday.length === 5) {
+			return '1990-' + facebookBirthday.split('/').join('-');
+		}
+
+		const facebookBirthdayArray = facebookBirthday.split('/');
+		return facebookBirthdayArray[2] + '-'
+			+ facebookBirthdayArray[0] + '-'
+			+ facebookBirthdayArray[1];
 	}
 
 	render() {
@@ -93,6 +110,8 @@ class Register extends Component {
 									handleInterestedInChange={this.handleInterestedInChange} interestedIn={this.state.interestedIn}
 									handleLocationChange={this.handleLocationChange} location={this.state.location}
 									handleBirthdayChange={this.handleBirthdayChange} birthday={this.state.birthday}
+									handleAgeMinChange={this.handleAgeMinChange} ageMin={this.state.ageMin}
+									handleAgeMaxChange={this.handleAgeMaxChange} ageMax={this.state.ageMax}
 									/> : null }
 							{ this.state.type === 'friend' ? <RegisterAsFriend register={this.didClickRegisterButton}/> : null }
 
@@ -152,6 +171,18 @@ class Register extends Component {
 	handleBirthdayChange(event) {
 		this.setState({
 			birthday: event.target.value
+		});
+	}
+
+	handleAgeMinChange(event) {
+		this.setState({
+			ageMin: event.target.value
+		});
+	}
+
+	handleAgeMaxChange(event) {
+		this.setState({
+			ageMax: event.target.value
 		});
 	}
 

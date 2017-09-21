@@ -376,8 +376,7 @@ class DefaultDataCreator extends Component {
 	}
 
 	getDOB(dob) {
-		const dobArray = dob.substr(0,10).split('-');
-		return dobArray[1] + '/' + dobArray[2] + '/' + dobArray[0];
+		return dob.substr(0,10);
 	}
 }
 

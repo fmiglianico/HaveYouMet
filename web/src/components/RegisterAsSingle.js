@@ -3,6 +3,12 @@ import React, { Component } from 'react';
 class RegisterAsSingle extends Component {
 
     render() {
+
+		const selectOptions = [];
+		for (let i = 18; i < 100; i++) {
+			selectOptions.push(<option value={i}>{i}</option>);
+		}
+
         return (
 			<div>
 
@@ -41,6 +47,18 @@ class RegisterAsSingle extends Component {
 				<label htmlFor="location">Location</label>
 				<input type="text" id="location" onChange={this.props.handleLocationChange}
 					   value={this.props.location}/>
+
+				<label htmlFor="ageMin">Age minimum</label>
+				<select id="ageMin" onChange={this.props.handleAgeMinChange}
+					   value={this.props.ageMin}>
+					{selectOptions}
+				</select>
+
+				<label htmlFor="ageMax">Age maximum</label>
+				<select id="ageMin" onChange={this.props.handleAgeMaxChange}
+						value={this.props.ageMax}>
+					{selectOptions}
+				</select>
 
 			</div>
         );
