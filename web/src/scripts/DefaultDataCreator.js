@@ -1294,7 +1294,6 @@ class DefaultDataCreator extends Component {
 			}))
 		});
 
-
 		this.setState({
 			finished: true
 		});

@@ -124,7 +124,8 @@
 	margin-bottom: 15px;
 }
 
-.profile {
+.profile,
+.profile-detail{
 	text-transform: capitalize;
 }
 
@@ -132,7 +133,8 @@
 	background-color: rgba(65, 65, 65, 0.2);
 }
 
-.profile-list {
+.profile-list,
+.profile-detail {
 	padding: 80px 100px;
 }
 

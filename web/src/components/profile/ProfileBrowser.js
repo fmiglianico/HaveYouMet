@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import ProfileActionCreator from '../../actions/ProfileActionCreator';
 import ProfileThumbnail from './ProfileThumbnail';
@@ -13,21 +14,21 @@ class ProfileBrowser extends Component {
 			currentPage: 0,
 			profilePerPage: 12,
 			total: 0
-		}
+		};
 
 		this.handleLeftButtonClick = this.handleLeftButtonClick.bind(this);
 		this.handleRightButtonClick = this.handleRightButtonClick.bind(this);
 	}
 
-    componentWillMount() {
-    }
-
     componentWillReceiveProps(nextProps) {
+		console.info('nextProps', nextProps);
 		if (nextProps.profiles.fetched) {
+			console.info('nextProps.profiles.fetched');
 			this.setState({
 				total: nextProps.profiles.data.length
 			})
 		} else if (nextProps.profile.fetched && !nextProps.profiles.fetching && !nextProps.profiles.error) {
+			console.info('nextProps.profile.fetched && !nextProps.profiles.fetching && !nextProps.profiles.error');
 			store.dispatch(ProfileActionCreator.getAll(
 				'single',
 				nextProps.profile.data.interestedIn,
@@ -44,7 +45,9 @@ class ProfileBrowser extends Component {
 					&& index < (this.state.currentPage+1)*this.state.profilePerPage;
 			}).map(profile => {
 				return (<div className="profile col-lg-2 col-sm-3 col-xs-4" key={profile.id}>
-					<ProfileThumbnail profile={profile} />
+					<Link to={"/profile/" + profile.id}>
+						<ProfileThumbnail profile={profile} />
+					</Link>
 				</div>);
 			});
     		return (

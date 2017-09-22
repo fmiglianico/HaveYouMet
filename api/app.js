@@ -60,8 +60,9 @@ api.use(neo4jSessionCleanup);
 
 //api routes
 api.post('/profile', routes.profiles.createProfile);
-api.get('/profile', routes.profiles.list);
-api.get('/profile/:facebookId', routes.profiles.findByFacebookId);
+api.get('/profiles', routes.profiles.list);
+api.get('/profile', routes.profiles.findById);
+api.get('/friends', routes.profiles.findFriends);
 api.post('/page', routes.pages.createPage);
 api.get('/pages', routes.pages.list);
 api.post('/ishelpedby', routes.isHelpedBys.createRelation);

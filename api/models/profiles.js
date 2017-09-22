@@ -29,19 +29,17 @@ function _manyProfiles(neo4jResult) {
 const getById = function (session, id) {
 	const query = [
 		'MATCH (profile:Profile {id:{id}})',
-		'OPTIONAL MATCH (profile)-[:LIKES]->(page:Page)',
-		'RETURN DISTINCT person,',
-		'collect(DISTINCT { name:page.title, id:page.id}) AS likes,'
+		'RETURN DISTINCT profile'
 	].join('\n');
 
 	return session
-		.run(query, {id: parseInt(id)})
+		.run(query, {id})
 		.then(result => {
 			if (!_.isEmpty(result.records)) {
 				return _singleProfileWithLikes(result.records[0]);
 			}
 			else {
-				throw {message: 'ProfileThumbnail not found', status: 404}
+				throw {message: 'Profile not found', status: 404}
 			}
 		});
 };
@@ -54,13 +52,13 @@ const getByFacebookId = function (session, facebookId) {
 	].join('\n');
 
 	return session
-		.run(query, {facebookId: facebookId})
+		.run(query, {facebookId})
 		.then(result => {
 			if (!_.isEmpty(result.records)) {
 				return _singleProfileWithLikes(result.records[0]);
 			}
 			else {
-				throw {message: 'ProfileThumbnail not found', status: 404}
+				throw {message: 'Profile not found', status: 404}
 			}
 		});
 };
@@ -76,7 +74,7 @@ const getAll = function (session, type, gender, ageMin, ageMax) {
 	let birthdayMax = null;
 	if (ageMax) {
 		birthdayMax = new Date();
-		birthdayMax.setYear(now.getYear() - ageMax + 1);
+		birthdayMax.setYear(now.getYear() - ageMax - 1);
 	}
 	return session.run('MATCH (profile:Profile) ' +
 		(type ? 'WHERE profile.type = {type} ' : '') +
@@ -88,6 +86,14 @@ const getAll = function (session, type, gender, ageMin, ageMax) {
 				gender,
 				birthdayMin: (birthdayMin ? birthdayMin.toISOString().substr(0, 10) : null),
 				birthdayMax: (birthdayMax ? birthdayMax.toISOString().substr(0, 10) : null)
+			})
+		.then(result => _manyProfiles(result));
+};
+
+// Get all friends
+const findFriends = function (session, singleId) {
+	return session.run('MATCH (:Profile {id: {singleId}})-[:IS_HELPED_BY]-(profile:Profile) RETURN profile', {
+				singleId
 			})
 		.then(result => _manyProfiles(result));
 };
@@ -106,6 +112,8 @@ const createProfile = function (session, profile, likes) {
 
 module.exports = {
 	getAll: getAll,
+	findFriends: findFriends,
+	getById: getById,
 	getByFacebookId: getByFacebookId,
 	createProfile: createProfile
 };

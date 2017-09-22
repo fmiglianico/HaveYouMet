@@ -7,7 +7,7 @@ class Footer extends Component {
 			<footer id="footer" className="footer style-1 dark">
 
 				<a href="#">
-					<img src="wunderkind/img/assets/footer-logo.png" alt="#" className="mr-auto img-responsive"/>
+					<img src="/wunderkind/img/assets/footer-logo.png" alt="#" className="mr-auto img-responsive"/>
 				</a>
 				<ul>
 					<li><a href="https://www.twitter.com/" target="_blank" className="color"><i className="ion-social-twitter"/></a></li>

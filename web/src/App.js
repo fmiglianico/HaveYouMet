@@ -14,6 +14,7 @@ import Footer from './components/home/Footer';
 import Register from './components/Register';
 import ErrorPage from './components/ErrorPage';
 import ProfileBrowser from './components/profile/ProfileBrowser';
+import ProfileDetail from './components/profile/ProfileDetail';
 
 import DefaultDataCreator from './scripts/DefaultDataCreator';
 
@@ -44,6 +45,7 @@ class App extends Component {
 				<Switch>
 					<Route path="/register" exact={true} component={Register}/>
 					<Route path="/dashboard" component={ProfileBrowser}/>
+					<Route path="/profile/:id" component={ProfileDetail}/>
 					<Route path="/" exact={true} render={() => (
 						<div>
 							<Hero/>

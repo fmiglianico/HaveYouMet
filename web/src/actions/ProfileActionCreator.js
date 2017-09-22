@@ -11,22 +11,59 @@ const ProfileActionCreators = {
 		}
 	},
 
-	getProfile: function (facebookId) {
+	getProfile: function (id) {
 		return {
-			type: Constants.GET_PROFILE(),
-			payload: axios.get('/api/v0/profile/' + facebookId)
+			type: Constants.GET_MY_PROFILE(),
+			payload: axios.get('/api/v0/profile', {
+				params: {
+					id
+				}
+			})
+		}
+	},
+
+	getMyProfile: function (facebookId) {
+		return {
+			type: Constants.GET_MY_PROFILE(),
+			payload: axios.get('/api/v0/profile', {
+				params: {
+					facebookId
+				}
+			})
 		}
 	},
 
 	getAll: function (type, gender, ageMin, ageMax) {
 		return {
 			type: Constants.GET_ALL_PROFILE(),
-			payload: axios.get('/api/v0/profile', {
+			payload: axios.get('/api/v0/profiles', {
 				params: {
 					type,
 					gender,
 					ageMin,
 					ageMax
+				}
+			})
+		}
+	},
+
+	getSingle: function (singleId) {
+		return {
+			type: Constants.GET_SINGLE_PROFILE(),
+			payload: axios.get('/api/v0/profile', {
+				params: {
+					singleId
+				}
+			})
+		}
+	},
+
+	getFriends: function (singleId) {
+		return {
+			type: Constants.GET_FRIENDS(),
+			payload: axios.get('/api/v0/friends', {
+				params: {
+					singleId
 				}
 			})
 		}

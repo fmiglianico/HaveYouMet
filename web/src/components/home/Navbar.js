@@ -23,7 +23,7 @@ class Navbar extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.profile.fetched && !nextProps.profile.fetching && !nextProps.profile.error
 			&& nextProps.facebookAuth.fetched) {
-			store.dispatch(ProfileActionCreator.getProfile(nextProps.facebookAuth.data.userID));
+			store.dispatch(ProfileActionCreator.getMyProfile(nextProps.facebookAuth.data.userID));
 		}
 	}
 
@@ -35,8 +35,8 @@ class Navbar extends Component {
 					<div className="navbar-header">
 						<div className="container">
 							<a className="navbar-brand to-top" href="#">
-								<img src="wunderkind/img/assets/logo-light.png" className="logo-light" alt="#"/>
-								<img src="wunderkind/img/assets/logo-dark.png" className="logo-dark" alt="#"/>
+								<img src="/wunderkind/img/assets/logo-light.png" className="logo-light" alt="#"/>
+								<img src="/wunderkind/img/assets/logo-dark.png" className="logo-dark" alt="#"/>
 							</a>
 						</div>
 					</div>
