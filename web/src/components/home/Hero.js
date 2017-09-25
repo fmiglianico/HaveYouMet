@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 class Hero extends Component {
 
@@ -7,7 +7,7 @@ class Hero extends Component {
 		return (
 			<section id="hero" className="hero-fullscreen parallax" data-overlay-dark="7">
 				<div className="background-image">
-					<img src="wunderkind/img/backgrounds/bg-1.jpg" alt="#" />
+					<img src="/wunderkind/img/backgrounds/bg-1.jpg" alt="#" />
 				</div>
 
 				<div className="container">
@@ -25,7 +25,6 @@ class Hero extends Component {
 								<p className="lead">We all have single friends -- Find the perfect match for them.</p>
 								<Link to="/register" className="btn btn-lg btn-primary btn-scroll">Start creating <i className="ion-heart"/></Link>
 							</div>
-
 						</div>
 
 					</div>
@@ -35,4 +34,4 @@ class Hero extends Component {
 	}
 }
 
-export default Hero;
+export default withRouter(Hero);

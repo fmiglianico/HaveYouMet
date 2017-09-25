@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { withRouter, Redirect, Link } from 'react-router-dom';
 
 import FacebookLogin from '../FacebookLogin';
 import FacebookPicture from '../FacebookPicture';
@@ -29,15 +29,15 @@ class Navbar extends Component {
 
 	render() {
 		return (
-			<nav className="navbar nav-down" data-fullwidth="true" data-menu-style="transparent" data-animation="shrink">
+			<nav className="navbar nav-down" data-fullwidth="true" data-menu-style={this.props.location.pathname === "/" ? "transparent-to-dark" : "dark"} data-animation="shrink">
 				<div className="container">
 
 					<div className="navbar-header">
 						<div className="container">
-							<a className="navbar-brand to-top" href="#">
+							<Link className="navbar-brand to-top" to="/">
 								<img src="/wunderkind/img/assets/logo-light.png" className="logo-light" alt="#"/>
 								<img src="/wunderkind/img/assets/logo-dark.png" className="logo-dark" alt="#"/>
-							</a>
+							</Link>
 						</div>
 					</div>
 
@@ -45,10 +45,16 @@ class Navbar extends Component {
 						<div className="container">
 							<ul className="nav navbar-nav menu-right">
 
-								<li><Link to="/">Home</Link></li>
+								<li><Link to={{
+									pathname: '/',
+									hash: '#root'
+								}}>Home</Link></li>
 								{
 									this.props.profile.fetched ?
-										<li><Link to="/dashboard">Dashboard</Link></li> :
+										<li><Link to={{
+											pathname: '/dashboard',
+											hash: '#root'
+										}}>Dashboard</Link></li> :
 										null
 								}
 								<li className="nav-separator"/>
@@ -97,4 +103,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(Navbar);
+export default withRouter(connect(mapStateToProps)(Navbar));

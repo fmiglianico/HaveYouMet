@@ -74,7 +74,15 @@ function getSingle(profileState, action) {
 				currentProfile: {
 					...profileState.currentProfile,
 					single: {
-						fetching: true
+						...profileState.currentProfile.single,
+						fetching: true,
+						fetchingId: action.meta.fetchingId
+					},
+					friends: {
+						fetching: false,
+						fetched: false,
+						data: null,
+						error: null
 					}
 				}
 			};
@@ -84,6 +92,7 @@ function getSingle(profileState, action) {
 				currentProfile: {
 					...profileState.currentProfile,
 					single: {
+						...profileState.currentProfile.single,
 						fetching: false,
 						fetched: true,
 						data: action.payload.data
@@ -96,6 +105,7 @@ function getSingle(profileState, action) {
 				currentProfile: {
 					...profileState.currentProfile,
 					single: {
+						...profileState.currentProfile.single,
 						fetching: false,
 						fetched: true,
 						error: action.payload
@@ -224,6 +234,7 @@ const initialProfileState = {
 	currentProfile: {
 		single: {
 			fetching: false,
+			fetchingId: null,
 			fetched: false,
 			data: null,
 			error: null

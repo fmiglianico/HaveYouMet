@@ -54,7 +54,10 @@ const ProfileActionCreators = {
 				params: {
 					singleId
 				}
-			})
+			}),
+			meta: {
+				fetchingId: singleId
+			}
 		}
 	},
 

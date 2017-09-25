@@ -23,7 +23,6 @@ import FacebookActionCreator from './actions/FacebookActionCreator';
 
 import './App.css';
 
-
 const APP_ID = '1110690499060538';
 const APP_VERSION = 'v2.8';
 

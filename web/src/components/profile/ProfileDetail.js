@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import ProfileActionCreator from '../../actions/ProfileActionCreator';
 import store from '../../stores/Store';
 
 class ProfileDetail extends Component {
 
+	componentWillMount() {
+		this.initProfile(this.props);
+	}
+
 	componentWillReceiveProps(nextProps) {
-		if (this.props.match.params.id) {
-			if (!nextProps.profile.fetched
-				&& !nextProps.profile.fetching
-				&& !nextProps.profile.error) {
-				store.dispatch(ProfileActionCreator.getSingle(this.props.match.params.id));
-			} else if (nextProps.profile.fetched
-				&& !nextProps.friends.fetched
-				&& !nextProps.friends.fetching
-				&& !nextProps.friends.error) {
-				store.dispatch(ProfileActionCreator.getFriends(this.props.match.params.id));
+		this.initProfile(nextProps);
+	}
+
+	initProfile(props) {
+		if (props.match.params.id) {
+			if ((!props.profile.fetched
+				&& !props.profile.fetching
+				&& !props.profile.error)
+				|| props.match.params.id !== props.profile.fetchingId) {
+				store.dispatch(ProfileActionCreator.getSingle(props.match.params.id));
+			} else if (props.profile.fetched
+				&& !props.friends.fetched
+				&& !props.friends.fetching
+				&& !props.friends.error) {
+				store.dispatch(ProfileActionCreator.getFriends(props.match.params.id));
 			}
 		}
 	}
@@ -68,7 +78,7 @@ class ProfileDetail extends Component {
 		}
 
         return (
-        	<div>
+        	<div className="container center-block">
 				{profileDiv}
 				<div className="row">
 					{friendsDiv}
@@ -85,4 +95,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(ProfileDetail);
+export default withRouter(connect(mapStateToProps)(ProfileDetail));

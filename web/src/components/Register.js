@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import RegisterActionCreator from '../actions/ProfileActionCreator';
 import FacebookActionCreator from '../actions/FacebookActionCreator';
@@ -201,4 +201,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(Register);
+export default withRouter(connect(mapStateToProps)(Register));

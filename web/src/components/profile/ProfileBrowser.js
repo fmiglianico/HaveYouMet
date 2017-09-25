@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import ProfileActionCreator from '../../actions/ProfileActionCreator';
 import ProfileThumbnail from './ProfileThumbnail';
@@ -20,20 +20,25 @@ class ProfileBrowser extends Component {
 		this.handleRightButtonClick = this.handleRightButtonClick.bind(this);
 	}
 
+	componentWillMount() {
+		this.initBrowser(this.props);
+	}
+
     componentWillReceiveProps(nextProps) {
-		console.info('nextProps', nextProps);
-		if (nextProps.profiles.fetched) {
-			console.info('nextProps.profiles.fetched');
+		this.initBrowser(nextProps);
+	}
+
+	initBrowser(props) {
+		if (props.profiles.fetched) {
 			this.setState({
-				total: nextProps.profiles.data.length
+				total: props.profiles.data.length
 			})
-		} else if (nextProps.profile.fetched && !nextProps.profiles.fetching && !nextProps.profiles.error) {
-			console.info('nextProps.profile.fetched && !nextProps.profiles.fetching && !nextProps.profiles.error');
+		} else if (props.profile.fetched && !props.profiles.fetching && !props.profiles.error) {
 			store.dispatch(ProfileActionCreator.getAll(
 				'single',
-				nextProps.profile.data.interestedIn,
-				nextProps.profile.data.ageMin,
-				nextProps.profile.data.ageMax
+				props.profile.data.interestedIn,
+				props.profile.data.ageMin,
+				props.profile.data.ageMax
 			));
 		}
 	}
@@ -45,7 +50,10 @@ class ProfileBrowser extends Component {
 					&& index < (this.state.currentPage+1)*this.state.profilePerPage;
 			}).map(profile => {
 				return (<div className="profile col-lg-2 col-sm-3 col-xs-4" key={profile.id}>
-					<Link to={"/profile/" + profile.id}>
+					<Link to={{
+						pathname: "/profile/" + profile.id,
+						hash: '#'
+					}}>
 						<ProfileThumbnail profile={profile} />
 					</Link>
 				</div>);
@@ -90,4 +98,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(ProfileBrowser);
+export default withRouter(connect(mapStateToProps)(ProfileBrowser));
